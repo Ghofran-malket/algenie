@@ -37,7 +37,7 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> {
         GestureDetector(
           onTap: _toggleDropdown,
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
             decoration: BoxDecoration(
               color: Colors.white,
               boxShadow: [
@@ -52,13 +52,19 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> {
               ],
               borderRadius: _isExpanded ? BorderRadius.only(topLeft: Radius.circular(ScreenUtil().setWidth(7),), topRight: Radius.circular(ScreenUtil().setWidth(7)))
               : BorderRadius.all(Radius.circular(
-                ScreenUtil().setWidth(7),
+                ScreenUtil().setWidth(20),
               )),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(_selectedItem),
+                Icon(Icons.account_circle_rounded,
+                  color: Color(0xFF252B37),
+                ),
+                Expanded(child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(_selectedItem),
+                )),
                 Icon(_isExpanded
                     ? Icons.keyboard_arrow_up
                     : Icons.keyboard_arrow_down, color: Colors.indigo,),

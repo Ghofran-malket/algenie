@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AnimatedDropdown extends StatefulWidget {
+  final Function(String?) onChanged;
+
+  AnimatedDropdown({required this.onChanged});
   @override
   _AnimatedDropdownState createState() => _AnimatedDropdownState();
 }
@@ -22,6 +25,7 @@ class _AnimatedDropdownState extends State<AnimatedDropdown> {
       _selectedItem = item;
       _isExpanded = false;
     });
+    widget.onChanged(_selectedItem);
   }
 
   @override

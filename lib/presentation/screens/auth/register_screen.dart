@@ -1,14 +1,12 @@
-import 'package:algenie/presentation/screens/welcome_screen.dart';
+import 'package:algenie/presentation/screens/terms_conditions_screen.dart';
 import 'package:algenie/presentation/widgets/animated_dropdown_list_widget.dart';
 import 'package:algenie/presentation/widgets/profile_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:algenie/presentation/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'dart:io' as io;
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -200,7 +198,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     setState(() {
                       selectedFromDropdown = value;
                     });
-                    print("Selected from dropdown: $selectedFromDropdown");
                   },
                 ),
               ),
@@ -296,7 +293,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (context) => const WelcomeScreen(),
+                            builder: (context) => const TermsConditionsScreen(),
                           ),
                         )
                       }

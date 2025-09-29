@@ -1,12 +1,16 @@
+import 'dart:convert';
+
+import 'package:algenie/data/models/user_model.dart';
 import 'package:algenie/presentation/screens/terms_conditions_screen.dart';
 import 'package:algenie/presentation/widgets/animated_dropdown_list_widget.dart';
 import 'package:algenie/presentation/widgets/profile_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:algenie/presentation/widgets/textfield_widget.dart';
+import 'package:algenie/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -20,55 +24,81 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
   TextEditingController bioController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   String? selectedFromDropdown;
   bool _emptyName = false;
   bool _emptyNumber = false;
   bool _emptyRole = false;
   bool _emptyBio = false;
+  bool loading = false;
 
   checkFields() {
-    if(nameController.text.isEmpty){
+    if (nameController.text.isEmpty) {
       setState(() {
         _emptyName = true;
       });
-    }else {
+    } else {
       setState(() {
         _emptyName = false;
       });
     }
-    if(numberController.text.isEmpty){
+    if (numberController.text.isEmpty) {
       setState(() {
         _emptyNumber = true;
       });
-    }else {
+    } else {
       setState(() {
         _emptyNumber = false;
       });
     }
-    if(selectedFromDropdown == null){
+    if (selectedFromDropdown == null) {
       setState(() {
         _emptyRole = true;
       });
-    }else {
+    } else {
       setState(() {
         _emptyRole = false;
       });
     }
-    if(bioController.text.isEmpty){
+    if (bioController.text.isEmpty) {
       setState(() {
         _emptyBio = true;
       });
-    }else {
+    } else {
       setState(() {
         _emptyBio = false;
       });
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
+  void handleRegister() async {
+    final auth = Provider.of<AuthProvider>(context, listen: false);
+    setState(() => loading = true);
+
+    try {
+      await Future.delayed(const Duration(seconds: 1));
+      await auth.register(
+        User(
+          name: nameController.text.trim(),
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+          role: selectedFromDropdown!.toLowerCase(),
+          number: numberController.text.trim()
+        )
+      );
+      
+
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Registration Successd")));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Registration failed")),
+      );
+    }
+
+    setState(() => loading = false);
   }
 
   @override
@@ -81,7 +111,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       //key: _scaffoldKey,
       resizeToAvoidBottomInset: true,
@@ -143,9 +172,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     controller: nameController,
                     icon: Icons.person,
                     inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z \$ @ &-_]")),
+                      FilteringTextInputFormatter.allow(
+                          RegExp("[0-9a-zA-Z \$ @ &-_]")),
                     ],
-                            )),
+                  )),
 
               _emptyName ? validateEmptyField() : Container(),
 
@@ -183,8 +213,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     icon: Icons.call,
                     keyboardType: TextInputType.phone,
                     inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  )
-              ),
+                  )),
 
               _emptyNumber ? validateEmptyField() : Container(),
 
@@ -277,6 +306,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               //TODO add city and country later
 
+              Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil().setWidth(17),
+                      vertical: ScreenUtil().setHeight(8)),
+                  child: TextFieldWidget(
+                    hint: 'Email',
+                    controller: emailController,
+                    icon: Icons.email,
+                    keyboardType: TextInputType.emailAddress
+                  )),
+
+               Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil().setWidth(17),
+                      vertical: ScreenUtil().setHeight(8)),
+                  child: TextFieldWidget(
+                    hint: 'Password',
+                    controller: passwordController,
+                    icon: Icons.password,
+                    keyboardType: TextInputType.visiblePassword
+                  )),
+
               //button
               //TODO ensure that all the field is not empty including the photo
               Padding(
@@ -286,19 +337,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: PrimaryButtonWidget(
                     color: Color(0xFFAB2929),
                     title: 'Register',
-                    isLoading: false,
+                    isLoading: loading,
                     function: () => {
-                      checkFields(),
-                      if (!(_emptyName || _emptyBio || _emptyNumber || _emptyRole || selectedFromDropdown == null)) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => const TermsConditionsScreen(),
-                          ),
-                        )
-                      }
-
-                    }),
+                          checkFields(),
+                          if (!(_emptyName ||
+                              _emptyBio ||
+                              _emptyNumber ||
+                              _emptyRole ||
+                              selectedFromDropdown == null))
+                            {
+                              handleRegister()
+                            }
+                        }),
               )
             ],
           ),

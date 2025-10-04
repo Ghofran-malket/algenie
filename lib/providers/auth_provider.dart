@@ -53,4 +53,16 @@ class AuthProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<void> goOffline() async {
+    final userId = await _storage.getUserId();
+
+    try {
+      await _apiService.goOffline(userId!);
+      _isOnline = false;
+    } catch (e) {
+      print(e.toString());
+    }
+    notifyListeners();
+  }
 }

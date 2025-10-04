@@ -93,4 +93,21 @@ class AuthService {
 
   }
 
+  Future<dynamic> goOffline(String userId) async {
+    final response = await http.delete(
+      Uri.parse('${baseUrl}genie/goOffline/$userId'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if(response.statusCode == 200){
+      final data = jsonDecode(response.body);
+      await storage.saveIsOnline('false');
+      return data;
+      
+    }else {
+      throw Exception('Failed to delete the online genie document');
+    }
+
+  }
+
 }

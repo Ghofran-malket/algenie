@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:algenie/providers/auth_provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +16,8 @@ class GenieHome extends StatefulWidget {
 }
 
 class _GenieHomeState extends State<GenieHome> {
-  
   bool loading = false;
-  //bool online = false;
-  bool show = true;
+  bool show = false;
   bool data = true;
 
   @override
@@ -38,24 +37,24 @@ class _GenieHomeState extends State<GenieHome> {
           return true;
         },
         child: Scaffold(
-            // key: scaffoldKey,
-            // drawer: GenieDrawer(),
             body: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/influencer1.png'),
                         fit: BoxFit.cover)),
                 child: SlidingUpPanel(
-                    panel: loading
-                        ? Center(
-                            child: SpinKitThreeBounce(
-                              color: Color(0xFFAB2929),
-                              size: 30,
-                            ),
-                          )
-                        : auth.isOnline!
-                            ? Text('_goOfflineWidget(context)')
-                            : _buildGoOnlineBar(),
+                    panel: show
+                        ? loading
+                            ? Center(
+                                child: SpinKitThreeBounce(
+                                  color: Color(0xFFAB2929),
+                                  size: 30,
+                                ),
+                              )
+                            : auth.isOnline!
+                                ? _goOfflineWidget(context)
+                                : _buildGoOnlineBar()
+                        : Container(),
                     boxShadow: [
                       BoxShadow(
                         color: const Color.fromRGBO(0, 0, 0, 0.16),
@@ -133,7 +132,7 @@ class _GenieHomeState extends State<GenieHome> {
                                                 textAlign: TextAlign.center,
                                               ),
                                               FadeAnimatedText(
-                                                "You are online",
+                                                "You are online in collapsed",
                                                 textStyle: const TextStyle(
                                                   fontFamily: "Poppin-semibold",
                                                   fontSize: 16,
@@ -167,9 +166,7 @@ class _GenieHomeState extends State<GenieHome> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             InkWell(
-                              onTap: () {
-                                // scaffoldKey.currentState!.openDrawer();
-                              },
+                              onTap: () {},
                               child: Container(
                                 width: ScreenUtil().setWidth(33),
                                 height: ScreenUtil().setWidth(33),
@@ -197,9 +194,7 @@ class _GenieHomeState extends State<GenieHome> {
                               ),
                             ),
                             InkWell(
-                              onTap: () async {
-                                //await myBox.put('name', 'Ghofran');
-                              },
+                              onTap: () async {},
                               child: const Text(
                                 'Enjoy your offers',
                                 style: TextStyle(
@@ -233,6 +228,57 @@ class _GenieHomeState extends State<GenieHome> {
                                 child: Container())),
                       )
                     ])))));
+  }
+
+  Column _goOfflineWidget(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(
+              top: ScreenUtil().setHeight(1.5),
+              bottom: ScreenUtil().setHeight(29.5)),
+          child: SizedBox(
+            height: ScreenUtil().setHeight(2.0),
+            width: ScreenUtil().setWidth(43),
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Color(0xFFC4C4C4)),
+            ),
+          ),
+        ),
+        Text(
+          "You Are Online",
+          style: const TextStyle(
+            fontFamily: "Poppin-semibold",
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+              top: ScreenUtil().setHeight(18),
+              bottom: ScreenUtil().setHeight(8)),
+          child: InkWell(
+              onTap: () async {
+                await context.read<AuthProvider>().goOffline();
+              },
+              child: Image.asset(
+                'assets/online.png',
+                width: ScreenUtil().setHeight(60),
+                height: ScreenUtil().setHeight(60),
+              )),
+        ),
+        Text(
+          "Go Offline",
+          style: const TextStyle(
+            fontFamily: "Poppin-semibold",
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+        ),
+      ],
+    );
   }
 
   _buildGoOnlineBar() {
@@ -284,10 +330,15 @@ class _GenieHomeState extends State<GenieHome> {
                   ),
                 ),
                 InkWell(
-                  onTap: () async{
+                  onTap: () async {
+                    // genieBloc.add(
+                    //   GoOnlineRequested(
+                    //     lat: _initialPosition!.latitude,
+                    //     long: _initialPosition!.longitude,
+                    //   ),
+                    // );
                     //genieRepository.updateGenieLocation();
-                    await  context.read<AuthProvider>().goOnline();
-                    
+                    await context.read<AuthProvider>().goOnline();
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(126),

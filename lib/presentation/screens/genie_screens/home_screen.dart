@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:algenie/presentation/widgets/drawer.dart';
 import 'package:algenie/providers/auth_provider.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class GenieHome extends StatefulWidget {
 }
 
 class _GenieHomeState extends State<GenieHome> {
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   bool loading = false;
   bool show = false;
   bool data = true;
@@ -33,10 +35,16 @@ class _GenieHomeState extends State<GenieHome> {
     final auth = context.watch<AuthProvider>();
     return WillPopScope(
         onWillPop: () async {
+          if (scaffoldKey.currentState!.isDrawerOpen) {
+            Navigator.of(context).pop();
+            return false;
+          }
           SystemNavigator.pop();
           return true;
         },
         child: Scaffold(
+          key: scaffoldKey,
+          drawer: GenieDrawer(),
             body: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -166,7 +174,9 @@ class _GenieHomeState extends State<GenieHome> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                scaffoldKey.currentState!.openDrawer();
+                              },
                               child: Container(
                                 width: ScreenUtil().setWidth(33),
                                 height: ScreenUtil().setWidth(33),

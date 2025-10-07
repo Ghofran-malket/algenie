@@ -1,4 +1,5 @@
 import 'package:algenie/presentation/screens/genie_screens/home_screen.dart';
+import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:algenie/services/api_service.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +24,7 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background.jpg'),
-                  fit: BoxFit.cover)),
+        body: ContainerBackgroundImage(
           child: Column(
             children: <Widget>[
               //appBar

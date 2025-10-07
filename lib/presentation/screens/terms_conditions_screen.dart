@@ -1,3 +1,4 @@
+import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,11 +25,7 @@ class _TermsConditionsScreenState extends State<TermsConditionsScreen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background.jpg'),
-                  fit: BoxFit.cover)),
+        body: ContainerBackgroundImage(
           child: Column(
             children: <Widget>[
               //appBar

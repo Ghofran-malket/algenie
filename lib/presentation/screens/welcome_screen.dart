@@ -1,4 +1,5 @@
 import 'package:algenie/presentation/screens/auth/login_screen.dart';
+import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -26,13 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           
       },
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('assets/background.jpg'),
-              fit: BoxFit.cover
-            )
-          ),
+        body: ContainerBackgroundImage(
           child: ListView(
             children: <Widget>[
               SizedBox(height: 75),
@@ -106,8 +101,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               
               InkWell(
                 onTap: () {
-                  // Navigator.pushNamed(context, '/login',
-                  //     arguments: {'userType': 'Genie', 'cameFrom' : ''});
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(

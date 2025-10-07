@@ -2,6 +2,7 @@ import 'package:algenie/data/models/user_model.dart';
 import 'package:algenie/presentation/screens/invite_friends_screen.dart';
 import 'package:algenie/presentation/screens/terms_conditions_screen.dart';
 import 'package:algenie/presentation/widgets/animated_dropdown_list_widget.dart';
+import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:algenie/presentation/widgets/profile_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:algenie/presentation/widgets/textfield_widget.dart';
@@ -116,11 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
-        child: Container(
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/background.jpg'),
-                  fit: BoxFit.cover)),
+        child: ContainerBackgroundImage(
           child: ListView(
             padding: const EdgeInsets.all(0),
             children: <Widget>[

@@ -9,7 +9,7 @@ class Order {
   Position? orderLocation;
   DateTime? updatedAt;
 
-  Order({required this.genieId, required this.orderId, required this.customerId, required this.orderStatus});
+  Order({required this.genieId, required this.orderId, required this.customerId, required this.orderStatus, this.createdAt});
 
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -17,7 +17,8 @@ class Order {
       genieId: json['genieId'] ,
       orderId: json['orderId'],
       customerId: json['customerId'],
-      orderStatus: json['orderStatus']
+      orderStatus: json['orderStatus'],
+      createdAt: DateTime.parse(json['createdAt'])
     );
   }
 
@@ -26,7 +27,8 @@ class Order {
       'genieId': genieId,
       'orderId': orderId,
       'customerId': customerId,
-      'orderStatus': orderStatus
+      'orderStatus': orderStatus,
+      'createdAt': createdAt
     };
   }
 }

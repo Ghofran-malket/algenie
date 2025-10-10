@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/widgets/drawer.dart';
+import 'package:algenie/presentation/widgets/order_details_widget.dart';
 import 'package:algenie/providers/auth_provider.dart';
 import 'package:algenie/services/order_api_services.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
@@ -265,11 +266,7 @@ class _GenieHomeState extends State<GenieHome> {
                                       itemCount: snapshot.data!.length,
                                       itemBuilder: (context, index) {
                                         final order = snapshot.data![index];
-                                        return ListTile(
-                                          title: Text("Customer Id ${order.customerId}"),
-                                          subtitle: Text("Order status  ${order.orderStatus}"),
-                                          trailing: Text("Genie Id ${order.genieId}"),
-                                        );
+                                        return OrderDetailsWidget(order: order);
                                       }
                                     );
                                   },

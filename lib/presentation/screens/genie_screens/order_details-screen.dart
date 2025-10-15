@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:algenie/data/models/order_model.dart';
+import 'package:algenie/presentation/screens/genie_screens/go_to_store_screen.dart';
 import 'package:algenie/presentation/widgets/order_stages_bar_widget.dart';
 import 'package:algenie/presentation/widgets/order_timer_widget.dart';
 import 'package:flutter/material.dart';
@@ -270,16 +271,16 @@ class OrderDetailsScreen extends StatelessWidget {
                                     //       length = length + 1;
                                     //     }
                                     //   }
-                                    // Navigator.push(
-                                    //     context,
-                                    //     MaterialPageRoute(
-                                    //       builder: (context) => GoToStore(
-                                    //           customer: customer,
-                                    //           order: widget.order,
-                                    //           store: stores[index],
-                                    //           storesLength: length),
-                                    //     ));
-                                    //}
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => GoToStoreScreen(
+                                            store: order.stores[index],
+                                            order: order
+                                          ),
+                                        )
+                                    );
+                                    
                                   },
                                   child: Container(
                                     width: ScreenUtil().setHeight(60),

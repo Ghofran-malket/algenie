@@ -1,9 +1,12 @@
 import 'package:algenie/data/models/item_model.dart';
+import 'package:geolocator/geolocator.dart';
 
 class Store {
   String name;
   String title;
   List<Item> items;
+  Position? location;
+
 
   Store({required this.name, required this.title, required this.items, });
 

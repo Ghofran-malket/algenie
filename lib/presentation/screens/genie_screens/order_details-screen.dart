@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:algenie/data/models/order_model.dart';
-import 'package:algenie/presentation/screens/genie_screens/go_to_store_screen.dart';
+import 'package:algenie/presentation/screens/genie_screens/order_stages_pageview_screen.dart';
 import 'package:algenie/presentation/widgets/order_stages_bar_widget.dart';
 import 'package:algenie/presentation/widgets/order_timer_widget.dart';
 import 'package:flutter/material.dart';
@@ -274,9 +274,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => GoToStoreScreen(
+                                          builder: (context) => OrderStagesPageviewScreen(
                                             store: order.stores[index],
-                                            order: order
+                                            order: order,
+                                            
                                           ),
                                         )
                                     );

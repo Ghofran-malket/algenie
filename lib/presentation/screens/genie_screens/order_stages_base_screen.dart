@@ -10,8 +10,10 @@ class OrderStagesBaseScreen extends StatelessWidget {
   final String title;
   final String buttonLabel;
   final VoidCallback onAction;
+  bool isMap;
 
-  OrderStagesBaseScreen({required this.store, required this.order, required this.title, required this.buttonLabel, required this.onAction});
+  OrderStagesBaseScreen({required this.store, required this.order, required this.title, required this.buttonLabel,
+  required this.onAction, this.isMap= true});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class OrderStagesBaseScreen extends StatelessWidget {
             ),
           ),
 
-          Padding(
+          isMap ? Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: ScreenUtil().setWidth(12),
                 vertical: ScreenUtil().setHeight(17)),
@@ -61,7 +63,7 @@ class OrderStagesBaseScreen extends StatelessWidget {
                     ? Center(child:Text("Google map here shows store's location but the location is null", style: TextStyle(color:Colors.white),))
                     : Center(child:Text("Google map here shows store's location", style: TextStyle(color:Colors.white)))
                 ),
-          ),
+          ) : SizedBox(height: ScreenUtil().setHeight(30),),
 
           //items
           Padding(

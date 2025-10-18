@@ -1,4 +1,5 @@
 import 'package:algenie/data/models/order_model.dart';
+import 'package:algenie/presentation/screens/genie_screens/report_a_problem_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,10 +9,15 @@ class OrderStagesBarWidget extends StatelessWidget {
   Stream chatMessagesStream = Stream.empty();
   OrderStagesBarWidget({super.key, required this.order});
 
-  void handleClick(String value) {
+  void handleClick(String value, context) {
     switch (value) {
       case "Report a problem":
-        print("Report a problem");
+        Navigator.push(
+          context,
+          MaterialPageRoute<void>(
+            builder: (context) => ReportAProblemScreen(),
+          ),
+        );
         break;
 
       case "View customer profile":
@@ -85,7 +91,7 @@ class OrderStagesBarWidget extends StatelessWidget {
               ),
             ),
             PopupMenuButton<String>(
-              onSelected: handleClick,
+              onSelected: (val) => handleClick(val, context),
               itemBuilder: (BuildContext context) {
                 return {"Report a problem", "View customer profile"}
                     .map((String choice) {

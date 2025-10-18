@@ -13,11 +13,7 @@ class SliderButtonWidget extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: ScreenUtil().setWidth(17),
-                vertical: ScreenUtil().setHeight(16)),
-            child: Directionality(
+          child: Directionality(
                 textDirection: TextDirection.ltr,
                 child: SliderButton(
                   action: () async {
@@ -48,7 +44,7 @@ class SliderButtonWidget extends StatelessWidget {
                   ),
                 )),
           ),
-        ),
+        
       ],
     );
   }

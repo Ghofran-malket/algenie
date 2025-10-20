@@ -152,6 +152,7 @@ class _ReportAProblemScreenState extends State<ReportAProblemScreen> {
               controller: descriptionController,
               keyboardType: TextInputType.multiline,
               maxLines: 5,
+              height: 150,
             ),
 
             SizedBox(height: 100),

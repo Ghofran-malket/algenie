@@ -38,4 +38,15 @@ class OrderApiService {
 
   }
 
+  void updateStoreStatus(String orderId, String storeId) async {
+    final response = await http.put(
+      Uri.parse('${baseUrl}orders/updateStoreStatus/?orderId=$orderId&&storeId=$storeId'),
+      headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode == 200){
+      print('good');
+    } else {
+      print('bad');
+    }
+  }
 }

@@ -264,14 +264,8 @@ class OrderDetailsScreen extends StatelessWidget {
                                 alignment: Alignment.centerRight,
                                 child: InkWell(
                                   onTap: () {
-                                    // if (stores[index].storeStatus == "Pending") {
-                                    //   int length = 0;
-                                    //   for (int i = 0; i < stores.length; i++) {
-                                    //     if (stores[i].storeStatus == "Pending") {
-                                    //       length = length + 1;
-                                    //     }
-                                    //   }
-                                    Navigator.push(
+                                    if(order.stores[index].storeStatus != "done"){
+                                      Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => OrderStagesPageviewScreen(
@@ -280,8 +274,8 @@ class OrderDetailsScreen extends StatelessWidget {
                                             
                                           ),
                                         )
-                                    );
-                                    
+                                      );
+                                    }
                                   },
                                   child: Container(
                                     width: ScreenUtil().setHeight(60),
@@ -316,8 +310,8 @@ class OrderDetailsScreen extends StatelessWidget {
                                               border: Border.all(
                                                   width: 3.0,
                                                   color: Color(
-                                                      "stores[index].storeStatus" ==
-                                                              "Done"
+                                                      order.stores[index].storeStatus ==
+                                                              "done"
                                                           ? 0xff203b4c
                                                           : 0xffed1b24)),
                                             ),
@@ -325,8 +319,8 @@ class OrderDetailsScreen extends StatelessWidget {
                                         ),
                                         Center(
                                             child:
-                                                "stores[index].storeStatus" ==
-                                                        "Done"
+                                                order.stores[index].storeStatus ==
+                                                        "done"
                                                     ? SvgPicture.string(
                                                         '<svg viewBox="22.0 25.5 19.5 13.5" ><path transform="translate(-7919.91, 2027.16)" d="M 7941.8623046875 -1994.317626953125 L 7947.931640625 -1988.248413085938 L 7961.388671875 -2001.70556640625" fill="none" stroke="#329800" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>',
                                                         allowDrawingOutsideViewBox:

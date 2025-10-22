@@ -1,6 +1,7 @@
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/data/models/store_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/order_stages_base_screen.dart';
+import 'package:algenie/presentation/screens/genie_screens/receipt_photo_screen.dart';
 import 'package:algenie/presentation/widgets/order_stages_bar_widget.dart';
 import 'package:algenie/presentation/widgets/order_timer_widget.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +10,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class OrderStagesPageviewScreen extends StatefulWidget {
   final Order order;
   final Store store;
-  OrderStagesPageviewScreen({super.key, required this.order, required this.store});
+  OrderStagesPageviewScreen(
+      {super.key, required this.order, required this.store});
 
   @override
-  State<OrderStagesPageviewScreen> createState() => _OrderStagesPageviewScreenState();
+  State<OrderStagesPageviewScreen> createState() =>
+      _OrderStagesPageviewScreenState();
 }
 
 class _OrderStagesPageviewScreenState extends State<OrderStagesPageviewScreen> {
@@ -25,11 +28,16 @@ class _OrderStagesPageviewScreenState extends State<OrderStagesPageviewScreen> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
       );
-    } if (_pageController.page == 2.0){
-      _pageController.animateToPage(
-        _pageController.initialPage, 
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
+    }
+    if (_pageController.page == 2.0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (context) => ReceiptPhotoScreen(
+            order: widget.order,
+            store: widget.store,
+          ),
+        ),
       );
     }
   }
@@ -47,7 +55,6 @@ class _OrderStagesPageviewScreenState extends State<OrderStagesPageviewScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-
           //appBar
           OrderStagesBarWidget(order: widget.order),
 
@@ -72,8 +79,9 @@ class _OrderStagesPageviewScreenState extends State<OrderStagesPageviewScreen> {
           Expanded(
             child: PageView(
               controller: _pageController,
-              physics: const NeverScrollableScrollPhysics(), // disable swipe if needed
-              children: [ 
+              physics:
+                  const NeverScrollableScrollPhysics(), // disable swipe if needed
+              children: [
                 OrderStagesBaseScreen(
                   title: 'Go to',
                   buttonLabel: 'Go',
@@ -89,14 +97,12 @@ class _OrderStagesPageviewScreenState extends State<OrderStagesPageviewScreen> {
                   onAction: _goToNextPage,
                 ),
                 OrderStagesBaseScreen(
-                  title: 'Pick up from',
-                  buttonLabel: 'Done',
-                  order: widget.order,
-                  store: widget.store,
-                  onAction: _goToNextPage,
-                  isMap: false
-                ),
-                
+                    title: 'Pick up from',
+                    buttonLabel: 'Done',
+                    order: widget.order,
+                    store: widget.store,
+                    onAction: _goToNextPage,
+                    isMap: false),
               ],
             ),
           ),

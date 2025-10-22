@@ -49,4 +49,17 @@ class OrderApiService {
       print('bad');
     }
   }
+
+  Future<Order?> updateOrderReceiptValue(String orderId, String receiptValue) async {
+    final response = await http.put(
+      Uri.parse('${baseUrl}orders/updateOrder/?orderId=$orderId&&receiptValue=$receiptValue'),
+      headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode == 200){
+      final Map<String, dynamic> orderJson = jsonDecode(response.body);
+      return Order.fromJson(orderJson);
+    } else {
+      return null;
+    }
+  }
 }

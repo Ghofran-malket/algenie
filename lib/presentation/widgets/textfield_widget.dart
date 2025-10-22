@@ -10,6 +10,7 @@ class TextFieldWidget extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLines;
   double? height;
+  VoidCallback? onChanged;
 
   TextFieldWidget(
       {super.key,
@@ -19,7 +20,8 @@ class TextFieldWidget extends StatelessWidget {
       this.inputFormatters,
       this.keyboardType,
       this.maxLines = 1,
-      this.height =50});
+      this.height =50,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,9 @@ class TextFieldWidget extends StatelessWidget {
               fontSize: 12,
               fontWeight: FontWeight.w400,
               color: Color(0xFF4B4B4B),
-            ): null),
+            ): null
+        ),
+        onChanged: (value) => onChanged,
       ),
     );
   }

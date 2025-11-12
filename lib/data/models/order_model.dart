@@ -13,7 +13,7 @@ class Order {
   String totalReceiptValue;
 
   Order({required this.genieId, required this.orderId, required this.customerId, required this.stores, required this.orderStatus,
-   this.createdAt, required this.totalReceiptValue});
+   this.createdAt, required this.totalReceiptValue, this.orderLocation});
 
 
   factory Order.fromJson(Map<String, dynamic> json) {
@@ -24,7 +24,19 @@ class Order {
       stores: (json['stores'] as List).map( (storeJson) => Store.fromJson(storeJson)).toList(),
       orderStatus: json['orderStatus'],
       createdAt: DateTime.parse(json['createdAt']),
-      totalReceiptValue: json['receiptValue']
+      totalReceiptValue: json['receiptValue'],
+      orderLocation: Position(
+        longitude: json['orderLocation']['longitude'],
+        latitude: json['orderLocation']['latitude'],
+        accuracy: 0.0,
+        timestamp: DateTime.now(),
+        altitude: 0.0,
+        altitudeAccuracy: 0.0,
+        heading: 0.0,
+        headingAccuracy: 0.0,
+        speed: 0.0,
+        speedAccuracy: 0.0,
+      ),
     );
   }
 

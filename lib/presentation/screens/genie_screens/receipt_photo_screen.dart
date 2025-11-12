@@ -1,3 +1,4 @@
+import 'package:algenie/presentation/screens/genie_screens/customer_location_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -227,7 +228,7 @@ class _ReceiptPhotoScreenScreenState extends State<ReceiptPhotoScreen> {
                           label: "Done",
                           onAction: () async {
                             //update store status to done
-                            OrderApiService().updateStoreStatus(widget.order.orderId, widget.store.id);
+                            await OrderApiService().updateStoreStatus(widget.order.orderId, widget.store.id);
                             //update the order receipt value field to the sum of the old value and the receiptController value
                             final int totalvalue = int.parse(widget.order.totalReceiptValue) + int.parse(receiptController.text) ;
                             final updatedOrder = await OrderApiService().updateOrderReceiptValue(widget.order.orderId, totalvalue.toString());
@@ -242,6 +243,12 @@ class _ReceiptPhotoScreenScreenState extends State<ReceiptPhotoScreen> {
                               );
                             }else{
                               print("No pending store left");
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (context) => CustomerLocationScreen(order: widget.order,),
+                                ),
+                              );
                             }
                           }),
                   SizedBox(height: ScreenUtil().setHeight(5)),

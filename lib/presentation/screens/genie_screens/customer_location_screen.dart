@@ -1,4 +1,5 @@
 import 'package:algenie/data/models/order_model.dart';
+import 'package:algenie/presentation/screens/genie_screens/deliver_to_customer_screen.dart';
 import 'package:algenie/presentation/widgets/order_stages_bar_widget.dart';
 import 'package:algenie/presentation/widgets/order_timer_widget.dart';
 import 'package:algenie/presentation/widgets/slider_button_widget.dart';
@@ -76,6 +77,7 @@ class CustomerLocationScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
+                    
                   },
                   child: Text(
                     "Navigate",
@@ -151,6 +153,13 @@ class CustomerLocationScreen extends StatelessWidget {
                   SliderButtonWidget(
                     label: "Arrived to Cutomer",
                     onAction: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DeliverToCustomerScreen(
+                              order: order,
+                            ),
+                          ));
                     },
                   ),
                   SizedBox(height: ScreenUtil().setHeight(20)),

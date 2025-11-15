@@ -155,7 +155,7 @@ class _DeliverToCustomerScreenState extends State<DeliverToCustomerScreen> {
                         context,
                         MaterialPageRoute<void>(
                           builder: (context) => RateScreen(
-                            orderId: widget.order.orderId,
+                            order: widget.order,
                           ),
                         ),
                       );

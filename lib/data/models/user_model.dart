@@ -5,8 +5,16 @@ class User {
   String role;
   String number;
   String? token;
+  String? image;
+  String? city;
+  String? country;
+  String? bio;
+  int? likeCount;
+  int? disLikeCount;
+  List<String>? languages;
 
-  User({required this.name, required this.email, required this.password, required this.role, required this.number,this.token});
+  User({required this.name, required this.email, required this.password, required this.role, 
+  required this.number,this.token, this.image, this.city, this.country, this.bio, this.likeCount, this.disLikeCount, this.languages});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -15,7 +23,14 @@ class User {
       password: json['password'] ?? '',
       role: json['role'] ?? '',
       number: json['number'] ?? '',
-      token: json['token'] ?? ''
+      token: json['token'] ?? '',
+      image: json['imagePath'] ?? '',
+      city: json['city'] ?? '',
+      country: json['country'] ?? '',
+      bio: json['bio'] ?? '',
+      likeCount: json['likeCount'] ?? 0,
+      disLikeCount: json['disLikeCount'] ?? 0,
+      languages: List<String>.from(json['languages'] ?? []),
     );
   }
 

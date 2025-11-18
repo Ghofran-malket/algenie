@@ -239,7 +239,7 @@ class _GenieHomeState extends State<GenieHome> {
                           ],
                         ),
                       ),
-                      Positioned(
+                      !auth.isOnline! ? Container() : Positioned(
                         top: ScreenUtil().setHeight(100),
                         right: ScreenUtil().setWidth(5),
                         left: ScreenUtil().setWidth(5),

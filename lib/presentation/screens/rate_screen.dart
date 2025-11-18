@@ -14,6 +14,8 @@ class RateScreen extends StatefulWidget {
 }
 
 class _RateScreenState extends State<RateScreen> {
+  bool likeClicked = false;
+  bool disLikeClicked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _RateScreenState extends State<RateScreen> {
             builder: (context, snapshot) {
               if (!snapshot.hasData) return CircularProgressIndicator();
 
-              final customer = snapshot.data!;
+              var customer = snapshot.data!;
               return Column(
                 children: <Widget>[
                   //appBar
@@ -117,7 +119,7 @@ class _RateScreenState extends State<RateScreen> {
                           spacing: ScreenUtil().setWidth(5.3),
                           children: <Widget>[
                             Text(
-                              customer.disLikeCount.toString(),
+                              customer.disLikeCount!.abs().toString(),
                               //style: FontConfig.semiBold_12
                             ),
                             Icon(
@@ -163,9 +165,14 @@ class _RateScreenState extends State<RateScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       //like button
-                      InkWell(
+                      GestureDetector(
                         onTap: () async {
                           //Evaluate the Customer and then go to online screen
+                          var result = await AuthService().giveRating(widget.order.customerId, 1);
+                          setState(() {
+                            customer = result;
+                            likeClicked = !likeClicked;
+                          });
                         },
                         child: Container(
                             height: ScreenUtil().setHeight(60),
@@ -175,14 +182,19 @@ class _RateScreenState extends State<RateScreen> {
                                 color: Colors.white,
                                 border: Border.all(color: Colors.grey)),
                             child:
-                                Icon(Icons.thumb_up_rounded, color: Colors.grey)),
+                                Icon(Icons.thumb_up_rounded, color: likeClicked ?Color(0xFFAB2929) :Colors.grey)),
                       ),
                       SizedBox(
                         width: ScreenUtil().setWidth(64),
                       ),
-                      InkWell(
+                      GestureDetector(
                         onTap: () async {
                           //Evaluate the Customer and then go to online screen
+                          var result = await AuthService().giveRating(widget.order.customerId, -1);
+                          setState(() {
+                            customer = result;
+                            disLikeClicked = !disLikeClicked;
+                          });
                         },
                         child: Container(
                             height: ScreenUtil().setHeight(60),
@@ -192,7 +204,7 @@ class _RateScreenState extends State<RateScreen> {
                                 color: Colors.white,
                                 border: Border.all(color: Colors.grey)),
                             child:
-                                Icon(Icons.thumb_down_rounded, color: Colors.grey)),
+                                Icon(Icons.thumb_down_rounded, color: disLikeClicked ?Color(0xFFAB2929) :Colors.grey)),
                       ),
                     ],
                   ),

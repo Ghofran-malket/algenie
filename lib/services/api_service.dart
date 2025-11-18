@@ -139,4 +139,17 @@ class AuthService {
       throw Exception("Failed to load user status ${e.toString()}");
     }
   }
+
+  Future<User> giveRating(String customerId, int ratingValue) async {
+    final response = await http.put(
+      Uri.parse('${baseUrl}users/rate/?customerId=$customerId&&rating=$ratingValue'),
+      headers: {'Content-Type': 'application/json'}
+    );
+    if(response.statusCode == 200){
+      final Map<String, dynamic> userJson = jsonDecode(response.body);
+      return User.fromJson(userJson);
+    } else {
+      throw Exception('Failed to rating');
+    }
+  }
 }

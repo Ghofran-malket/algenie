@@ -1,6 +1,5 @@
 import 'package:algenie/data/models/user_model.dart';
 import 'package:algenie/presentation/screens/invite_friends_screen.dart';
-import 'package:algenie/presentation/screens/terms_conditions_screen.dart';
 import 'package:algenie/presentation/widgets/animated_dropdown_list_widget.dart';
 import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:algenie/presentation/widgets/profile_image_widget.dart';
@@ -26,13 +25,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController bioController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
 
+  String imagePath = '';
   String? selectedFromDropdown;
   bool _emptyName = false;
   bool _emptyNumber = false;
   bool _emptyRole = false;
   bool _emptyBio = false;
   bool loading = false;
+
+  void _onImagePicked(String path) {
+    setState(() {
+      imagePath = path;  // Store the picked image path
+    });
+  }
 
   checkFields() {
     if (nameController.text.isEmpty) {
@@ -84,7 +92,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           email: emailController.text.trim(),
           password: passwordController.text.trim(),
           role: selectedFromDropdown!.toLowerCase(),
-          number: numberController.text.trim()));
+          number: numberController.text.trim(),
+          bio: bioController.text.trim(),
+          city: cityController.text.trim(),
+          country: countryController.text.trim(),
+          image: imagePath));
       Navigator.push(
         context,
         MaterialPageRoute<void>(
@@ -153,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               createASpacer(20),
 
-              ProfileImagePicker(),
+              ProfileImagePicker(onImagePicked: _onImagePicked),
 
               createASpacer(40),
 
@@ -249,7 +261,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               _emptyBio ? validateEmptyField() : Container(),
 
-              //TODO add city and country later
+              //city and country
+              TextFieldWidget(
+                hint: 'City',
+                controller: cityController,
+                icon: Icons.location_city,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z]")),
+                ],
+              ),
+              SizedBox(height: ScreenUtil().setHeight(16)),
+
+              TextFieldWidget(
+                hint: 'Country',
+                controller: countryController,
+                icon: Icons.map_rounded,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.allow(RegExp("[0-9a-zA-Z]")),
+                ],
+              ),
+              SizedBox(height: ScreenUtil().setHeight(16)),
 
               TextFieldWidget(
                   hint: 'Email',
@@ -274,6 +305,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   title: 'Register',
                   isLoading: loading,
                   function: () => {
+                        print(imagePath+ 'imagePath'),
                         checkFields(),
                         if (!(_emptyName ||
                             _emptyBio ||

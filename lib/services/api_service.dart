@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:algenie/data/models/user_model.dart';
 import 'package:algenie/utils/auth_storage.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 
 class AuthService {
+  final generalStorage = FlutterSecureStorage();
   final AuthStorage storage = AuthStorage();
   final String baseUrl = "http://192.168.1.89:3000/api/";
 
@@ -38,7 +40,12 @@ class AuthService {
         'email': user.email,
         'password': user.password,
         'role': user.role,
-        'number': user.number}),
+        'number': user.number,
+        'city': user.city,
+        'country': user.country,
+        'bio': user.bio,
+        'imagePath': user.image
+        }),
     );
 
     if(response.statusCode == 201){
@@ -59,6 +66,7 @@ class AuthService {
       await storage.deleteToken();
       await storage.deleteUserId();
       await storage.deleteUser();
+      await generalStorage.deleteAll();
     }catch(e){
       throw Exception(e.toString());
     }

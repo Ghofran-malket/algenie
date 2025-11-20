@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:algenie/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +39,7 @@ class UserDataWidget extends StatelessWidget {
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                    fit: BoxFit.fill, image: NetworkImage(user.image!)))),
+                    fit: BoxFit.fill, image: user.image!.startsWith("http") ? NetworkImage(user.image!) : FileImage(File(user.image!))))),
         SizedBox(height: ScreenUtil().setHeight(10)),
         Text(
           user.name,

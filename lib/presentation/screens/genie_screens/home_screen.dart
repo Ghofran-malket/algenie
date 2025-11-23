@@ -4,7 +4,7 @@ import 'package:algenie/presentation/screens/genie_screens/order_details-screen.
 import 'package:algenie/presentation/widgets/drawer.dart';
 import 'package:algenie/presentation/widgets/order_card_widget.dart';
 import 'package:algenie/providers/auth_provider.dart';
-import 'package:algenie/services/order_api_services.dart';
+import 'package:algenie/services/api_service.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,8 +15,8 @@ import 'package:provider/provider.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class GenieHome extends StatefulWidget {
-  const GenieHome({super.key});
-
+  final Order? order;
+  const GenieHome({super.key, this.order});
   @override
   _GenieHomeState createState() => _GenieHomeState();
 }
@@ -28,12 +28,13 @@ class _GenieHomeState extends State<GenieHome> {
   bool data = true;
 
   final LocationSettings locationSettings = LocationSettings(
-  accuracy: LocationAccuracy.high,
-  distanceFilter: 100,
-);
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 100,
+  );
 
-  Future<Position> getCurrentLocation() async{
-    return await Geolocator.getCurrentPosition(locationSettings: locationSettings);
+  Future<Position> getCurrentLocation() async {
+    return await Geolocator.getCurrentPosition(
+        locationSettings: locationSettings);
   }
 
   @override
@@ -57,8 +58,8 @@ class _GenieHomeState extends State<GenieHome> {
           return true;
         },
         child: Scaffold(
-          key: scaffoldKey,
-          drawer: GenieDrawer(),
+            key: scaffoldKey,
+            drawer: GenieDrawer(),
             body: Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -239,52 +240,34 @@ class _GenieHomeState extends State<GenieHome> {
                           ],
                         ),
                       ),
-                      !auth.isOnline! ? Container() : Positioned(
-                        top: ScreenUtil().setHeight(100),
-                        right: ScreenUtil().setWidth(5),
-                        left: ScreenUtil().setWidth(5),
-                        bottom: ScreenUtil().setHeight(80),
-                        child: Scrollbar(
-                            thickness: ScreenUtil().setWidth(5),
-                            child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: ScreenUtil().setWidth(17)),
-                                child: StreamBuilder<List<Order>>(
-                                  stream: OrderApiService().getTakenOrders(),
-                                  builder: (BuildContext context, AsyncSnapshot<List<Order>> snapshot) { 
-                                    if (snapshot.connectionState == ConnectionState.waiting) {
-                                      return  Center(child: SpinKitChasingDots(color: Color(0xFFAB2929),));
-                                    }
-
-                                    if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                      return const Center(child: Text('No orders available'));
-                                    }
-
-                                    return ListView.builder(
-                                      primary: false,
-                                      scrollDirection: Axis.vertical,
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.length,
-                                      itemBuilder: (context, index) {
-                                        final order = snapshot.data![index];
-                                        return InkWell(
-                                          onTap: () {
+                      !auth.isOnline!
+                          ? Container()
+                          : widget.order != null ? Positioned(
+                              top: ScreenUtil().setHeight(100),
+                              right: ScreenUtil().setWidth(5),
+                              left: ScreenUtil().setWidth(5),
+                              bottom: ScreenUtil().setHeight(80),
+                              child: Scrollbar(
+                                  thickness: ScreenUtil().setWidth(5),
+                                  child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              ScreenUtil().setWidth(17)),
+                                      child: InkWell(
+                                          onTap: () async {
+                                            await AuthService().updateGenieProgress(orderId: widget.order!.orderId, 
+                                            step: 'orderDetails');
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                  builder: (context) => OrderDetailsScreen(order: order)
-                                              ),
+                                                  builder: (context) =>
+                                                      OrderDetailsScreen(
+                                                          order: widget.order!)),
                                             );
                                           },
-                                          child: OrderCardWidget(order: order)
-                                        );
-                                      }
-                                    );
-                                  },
-                                )
-                          )
-                        ),
-                      )
+                                          child: OrderCardWidget(
+                                              order: widget.order!)))),
+                            ) : Container()
                     ])))));
   }
 

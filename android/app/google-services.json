@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "548050379752",
+    "project_id": "algenie-new-version",
+    "storage_bucket": "algenie-new-version.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548050379752:android:1e23678843e7aaefd67a5d",
+        "android_client_info": {
+          "package_name": "com.example.algenie"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdG9dYN-wY6xThjb7D-YI3b9rKr2nkjxE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

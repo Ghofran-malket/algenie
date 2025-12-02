@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/data/models/user_model.dart';
 import 'package:algenie/utils/auth_storage.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
@@ -13,10 +14,11 @@ class AuthService {
 
   //user login
   Future<User> login(String email, String password) async {
+    String? fcmToken = await generateFCMToken();
     final response = await http.post(
       Uri.parse('${baseUrl}users/login'),
       headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({'email': email, 'password': password}),
+      body: jsonEncode({'email': email, 'password': password, 'token': fcmToken}),
     );
 
     if(response.statusCode == 200){
@@ -33,6 +35,7 @@ class AuthService {
 
   //user register
   Future<User> register(User user) async {
+    String? fcmToken = await generateFCMToken();
     final response = await http.post(
       Uri.parse('${baseUrl}users/register'),
       headers: {'Content-Type': 'application/json'},
@@ -45,7 +48,8 @@ class AuthService {
         'city': user.city,
         'country': user.country,
         'bio': user.bio,
-        'imagePath': user.image
+        'imagePath': user.image,
+        'token': fcmToken
         }),
     );
 
@@ -226,6 +230,36 @@ class AuthService {
       }
     } catch (e) {
       throw Exception('Failed to updateGenieProgress');
+    }
+  }
+
+  Future<String?> generateFCMToken() async{
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    // Request permissions
+    await messaging.requestPermission();
+
+    // Get FCM token
+    String? token = await messaging.getToken();
+    print("FCM Token: $token");
+
+    // Send token to your backend
+    return token;
+  }
+
+  Future sendNotification() async{
+    final userId = await storage.getUserId();
+
+    final response =  await http.post(
+      Uri.parse('${baseUrl}users/sendNotification'),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"userId": userId}),
+    );
+    if(response.statusCode == 201){
+      final data = jsonDecode(response.body);
+      print('data $data');
+    }else {
+      throw Exception('sendnotification failed');
     }
   }
 }

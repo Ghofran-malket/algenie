@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:algenie/data/models/store_model.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:intl/intl.dart';
 
 class Order {
   String genieId;
@@ -53,4 +56,35 @@ class Order {
       'receiptValue': totalReceiptValue
     };
   }
+
+  factory Order.fromFirebaseNotification(Map<String, dynamic> data) {
+    final format = DateFormat("EEE MMM dd yyyy HH:mm:ss 'GMT'Z");
+    return Order(
+      genieId: data['genieId'] ,
+      orderId: data['orderId'],
+      customerId: data['customerId'],
+      stores: (jsonDecode(data['stores']) as List).map( (storeJson) => Store.fromJson(storeJson)).toList(),
+      orderStatus: data['orderStatus'],
+      createdAt: format.parse(data['createdAt'].split(' (')[0]),
+      totalReceiptValue: data['receiptValue'],
+      orderLocation: Position(
+        longitude: double.parse(data['orderLocationLongitude']),
+        latitude:  double.parse(data['orderLocationLatitude']),
+        accuracy: 0.0,
+        timestamp: DateTime.now(),
+        altitude: 0.0,
+        altitudeAccuracy: 0.0,
+        heading: 0.0,
+        headingAccuracy: 0.0,
+        speed: 0.0,
+        speedAccuracy: 0.0,
+      ),
+      genieProgress: {
+        'storeIndex' : int.parse(data['genieProgressStoreIndex']),
+        'step' : data['genieProgressStep'],
+        'lastUpdated' :format.parse(data['genieProgressLastUpdated'].split(' (')[0]),
+      }
+    );
+  }
+
 }

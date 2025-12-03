@@ -1,18 +1,21 @@
 import 'dart:async';
 import 'package:algenie/data/models/order_model.dart';
+import 'package:algenie/presentation/screens/genie_screens/home_screen.dart';
 import 'package:algenie/presentation/screens/genie_screens/order_stages_pageview_screen.dart';
 import 'package:algenie/presentation/widgets/order_stages_bar_widget.dart';
 import 'package:algenie/presentation/widgets/order_timer_widget.dart';
+import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:algenie/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
+  final bool fromNotification;
   final Order order;
-  OrderDetailsScreen({super.key, required this.order});
+  OrderDetailsScreen({super.key, required this.order, this.fromNotification = false});
 
-  Stream chatMessagesStream = Stream.empty();
+  final Stream chatMessagesStream = Stream.empty();
 
   @override
   Widget build(BuildContext context) {
@@ -40,121 +43,145 @@ class OrderDetailsScreen extends StatelessWidget {
 
           _storeCardWidget(),
 
-          Column(
-            children: [
-              //total estimate
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(17)),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(
-                      ScreenUtil().setWidth(8),
-                    )),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.12),
-                        offset: Offset(
-                          0.0,
-                          ScreenUtil().setWidth(3.0),
-                        ), //(x,y)
-                        blurRadius: ScreenUtil().setWidth(6.0),
-                      ),
-                    ],
-                  ),
-                  padding: EdgeInsets.all(10),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text(
-                          "Estimated Total",
-                          style: TextStyle(
-                            fontFamily: "Poppins-Medium",
-                            fontSize: 15,
-                            color: Color(0xFF252B37),
-                          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(17)),
+            child: Column(
+              children: [
+                //total estimate
+                Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(
+                        ScreenUtil().setWidth(8),
+                      )),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.12),
+                          offset: Offset(
+                            0.0,
+                            ScreenUtil().setWidth(3.0),
+                          ), //(x,y)
+                          blurRadius: ScreenUtil().setWidth(6.0),
                         ),
-                        Text(
-                          "100\$",
-                          style: TextStyle(
-                            fontFamily: "poppin-semibold",
-                            fontSize: 16,
-                            color: Color(0xFFED1B24),
-                          ),
-                        )
                       ],
                     ),
-                  ),
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            "Estimated Total",
+                            style: TextStyle(
+                              fontFamily: "Poppins-Medium",
+                              fontSize: 15,
+                              color: Color(0xFF252B37),
+                            ),
+                          ),
+                          Text(
+                            "100\$",
+                            style: TextStyle(
+                              fontFamily: "poppin-semibold",
+                              fontSize: 16,
+                              color: Color(0xFFED1B24),
+                            ),
+                          )
+                        ],                      
+                    ),                  
                 ),
-              ),
+            
+                SizedBox(
+                  height: ScreenUtil().setHeight(30),
+                ),
+            
+                //customer's note
+                Row(
+                    children: <Widget>[
+                      Icon(Icons.note, color: Color(0xFFAB2929)),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(4),
+                      ),
+                      Text(
+                        "Customer Note",
+                        style: TextStyle(
+                          fontFamily: "Poppins-Medium",
+                          fontSize: ScreenUtil().setSp(15),
+                          color: Color(0xFF252B37),
+                        ),
+                      )
+                    ],
+                ),
 
-              SizedBox(
-                height: ScreenUtil().setHeight(30),
-              ),
-
-              //customer's note
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(28)),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.note, color: Color(0xFFAB2929)),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(4),
+                SizedBox(height: ScreenUtil().setHeight(10),),
+                //note
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(Radius.circular(
+                        ScreenUtil().setWidth(8),
+                      )),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color.fromRGBO(0, 0, 0, 0.12),
+                          offset: Offset(
+                            0.0,
+                            ScreenUtil().setWidth(3.0),
+                          ), //(x,y)
+                          blurRadius: ScreenUtil().setWidth(6.0),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "Customer Note",
+                    padding:
+                        EdgeInsets.only(top: 12, bottom: 12, left: 12, right: 22),
+                    child: Text(
+                      "when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+                      "It has survived not only five centuries,"
+                      "but also the leap into electronic typesetting, remaining essentially unchanged",
                       style: TextStyle(
-                        fontFamily: "Poppins-Medium",
-                        fontSize: ScreenUtil().setSp(15),
+                        fontFamily: "Poppins-Regular",
+                        fontSize: ScreenUtil().setSp(12),
                         color: Color(0xFF252B37),
                       ),
-                    )
-                  ],
-                ),
-              ),
-
-              //note
-              Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: ScreenUtil().setWidth(17),
-                    vertical: ScreenUtil().setHeight(10)),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(
-                      ScreenUtil().setWidth(8),
-                    )),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.12),
-                        offset: Offset(
-                          0.0,
-                          ScreenUtil().setWidth(3.0),
-                        ), //(x,y)
-                        blurRadius: ScreenUtil().setWidth(6.0),
-                      ),
-                    ],
-                  ),
-                  padding:
-                      EdgeInsets.only(top: 12, bottom: 12, left: 12, right: 22),
-                  child: Text(
-                    "when an unknown printer took a galley of type and scrambled it to make a type specimen book."
-                    "It has survived not only five centuries,"
-                    "but also the leap into electronic typesetting, remaining essentially unchanged",
-                    style: TextStyle(
-                      fontFamily: "Poppins-Regular",
-                      fontSize: ScreenUtil().setSp(12),
-                      color: Color(0xFF252B37),
                     ),
-                  ),
                 ),
-              ),
-            ],
+                SizedBox(height: ScreenUtil().setHeight(30),),
+            
+                fromNotification ? Column(
+                        children: [
+                          PrimaryButtonWidget(
+                            color: Color(0xFFAB2929),
+                            title: 'Accept the order',
+                            isLoading: false, function: ()=> {}
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (context) => const GenieHome(),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 22, horizontal: 17),
+                              child: Center(
+                                child: Text(
+                                  "Reject",
+                                  style: TextStyle(
+                                    fontFamily: "Poppin-semibold",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFFAB2929),
+                                  ),
+                                ),
+                              ),
+                            )
+                          )
+                        ],
+                      ) : Container(),
+              
+              ],
+            ),
           ),
         ],
       ),
@@ -340,7 +367,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                   ),
                                 ))
                           ],
-                        ))
+                        )),  
                   ],
                 ),
               ),

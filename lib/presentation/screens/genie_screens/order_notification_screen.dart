@@ -175,7 +175,7 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                     navigator.push(
                       MaterialPageRoute(
                           builder: (context) =>
-                              OrderDetailsScreen(order: widget.order)),
+                              OrderDetailsScreen(order: widget.order, fromNotification: true,)),
                     );
                   },
                   child: Text(

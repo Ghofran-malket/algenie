@@ -52,9 +52,10 @@ class StartupWidget extends StatelessWidget {
         //if customer then go to customer section
         if(role == "customer") return Scaffold(body: Center(child:Text("Customer")));
         //if genie go to genie section
-        final Order order = data['order'];
+        //final Order order = data['order'];
         final active = data['active'];
-        return  active ? orderStep(order) : GenieHome();
+        //if active true then there is a taken order else genie with no order taken
+        return  active ? orderStep(data['order']) : GenieHome();
       }
     );
   }

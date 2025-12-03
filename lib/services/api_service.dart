@@ -160,13 +160,22 @@ class AuthService {
 
       if(role == 'genie'){
         final data = await getGenieCurrentOrder(userId!);
-        
+        //genie with order
+        if(data['active']){
+          return {
+            "role" : role,
+            "active" : data['active'],
+            "order" : data['order']
+          }; 
+        }
+        //genie with no order
         return {
           "role" : role,
-          "active": data['active'],
-          "order": data['order']
-        };
+          "active" : data['active'],
+        }; 
+        
       }else{
+        //Customer
         return {
           "role" : role
         };
@@ -197,14 +206,19 @@ class AuthService {
         headers: {'Content-Type': 'application/json'}
       );
       if(response.statusCode == 200){
-      //   active: true,
-      // order: order
         final Map<String, dynamic> data = jsonDecode(response.body);
-        final Map<String,dynamic> orderMap = data['order'];
-        final Order order = Order.fromJson(orderMap);
+        //if active is true then there is a taken order by this genie
+        if(data['active']){
+          final Map<String,dynamic> orderMap = data['order'];
+          final Order order = Order.fromJson(orderMap);
+          return {
+            'active': data['active'],
+            'order': order 
+          };
+        }
+        //No taken order
         return {
           'active': data['active'],
-          'order': order 
         };
       }
     } catch (e) {

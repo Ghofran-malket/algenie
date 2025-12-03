@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/order_notification_screen.dart';
 import 'package:algenie/presentation/screens/splash_screen.dart';
@@ -67,6 +69,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     ScreenUtil.init(context, designSize: const Size(360, 690));
     final authProvider = Provider.of<AuthProvider>(context);
+    print("authProvider.isLoggedIn.toString()" +authProvider.isLoggedIn.toString());
     return MaterialApp(
       navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,

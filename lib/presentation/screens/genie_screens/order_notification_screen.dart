@@ -3,6 +3,7 @@ import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/order_details-screen.dart';
 import 'package:algenie/presentation/widgets/notification_timer_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
+import 'package:algenie/services/genie_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:just_audio/just_audio.dart';
@@ -27,9 +28,9 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
       if (!clicked) {
         log("You didn't take this order");
         //TODO genie ignore this order
-        //Navigator.of(context).pop();
+        Navigator.of(context).pop();
       }
-      await player.stop();
+      player.dispose();
     });
   }
 
@@ -40,8 +41,8 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
   }
 
   @override
-  void dispose() async {
-    await player.stop();
+  void dispose() {
+    player.dispose();
     super.dispose();
   }
 
@@ -134,11 +135,11 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                 title: "let's go",
                 isLoading: clicked,
                 function: () async => {
-                      //TODO accept order then go to orderdetails page
+                      await GenieService().acceptOrder(widget.order.orderId),
                       setState(() {
                         clicked = !clicked;
                       }),
-                      await player.stop(),
+                      player.dispose(),
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -152,7 +153,7 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
               children: [
                 InkWell(
                   onTap: () async {
-                    await player.stop();
+                    player.dispose();
                     //TODO reject order and go to online screen
                   },
                   child: Text(
@@ -169,9 +170,9 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                   onTap: () async {
                     final navigator = Navigator.of(context);
 
-                    await player.stop();
+                    player.dispose();
                     navigator.popUntil((route) => route.isFirst);
-                    //TODO go to order deatils screen with accept and reject buttons
+                    //go to order deatils screen with accept and reject buttons
                     navigator.push(
                       MaterialPageRoute(
                           builder: (context) =>

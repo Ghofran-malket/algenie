@@ -6,6 +6,8 @@ import 'package:algenie/presentation/widgets/order_stages_bar_widget.dart';
 import 'package:algenie/presentation/widgets/order_timer_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:algenie/services/api_service.dart';
+import 'package:algenie/services/genie_services.dart';
+import 'package:algenie/startup_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
@@ -150,8 +152,18 @@ class OrderDetailsScreen extends StatelessWidget {
                         children: [
                           PrimaryButtonWidget(
                             color: Color(0xFFAB2929),
-                            title: 'Accept the order',
-                            isLoading: false, function: ()=> {}
+                            title: 'Accept the order', 
+                            isLoading: false, 
+                            function: () async => {
+                              await GenieService().acceptOrder(order.orderId),
+                              Navigator.of(context).popUntil((route) => route.isFirst),
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (context) => StartupWidget(),
+                                  ),
+                                )
+                            }
                           ),
                           InkWell(
                             onTap: () {

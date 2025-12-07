@@ -32,20 +32,14 @@ void initState() {
 
   Future<void> _goToNextPage() async {
     final navigator = Navigator.of(context);
-    if (_pageController.page != null && _pageController.page! < 3) {
-      print("page number ${_pageController.page}");
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-    if (_pageController.page == 0.0) {
+    print("page number ${_pageController.page}");
+    if (_pageController.page == 0) {
       await AuthService().updateGenieProgress(orderId: widget.order.orderId, step: 'arriveToStore', storeIndex: widget.storeIndex);
     }
-    if (_pageController.page == 1.0) {
+    if (_pageController.page == 1) {
       await AuthService().updateGenieProgress(orderId: widget.order.orderId, step: 'pickUpDone', storeIndex: widget.storeIndex);
     }
-    if (_pageController.page == 2.0) {
+    if (_pageController.page == 2) {
       await AuthService().updateGenieProgress(orderId: widget.order.orderId, step: 'receiptPhoto', storeIndex: widget.storeIndex);
       navigator.push(
         MaterialPageRoute<void>(
@@ -55,6 +49,14 @@ void initState() {
           ),
         ),
       );
+    }
+    if (_pageController.page != null && _pageController.page! < 3) {
+      print("page number inside ${_pageController.page}");
+      _pageController.nextPage(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+      print("page number after ${_pageController.page}");
     }
   }
 

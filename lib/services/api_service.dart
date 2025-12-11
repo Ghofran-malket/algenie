@@ -24,10 +24,10 @@ class AuthService {
     if(response.statusCode == 200){
       final data = jsonDecode(response.body);
       await storage.saveToken(data['token']);
-      await storage.saveUserId(data['id']);
+      await storage.saveUserId(data['_id']);
       await storage.saveUser(User.fromJson(data));
       if(data['role'] == 'genie'){
-        await isOnline(data['id']);
+        await isOnline(data['_id']);
       }
       return User.fromJson(data);
     }else {
@@ -59,7 +59,7 @@ class AuthService {
     if(response.statusCode == 201){
       final data = jsonDecode(response.body);
       await storage.saveToken(data['token']);
-      await storage.saveUserId(data['id']);
+      await storage.saveUserId(data['_id']);
       await storage.saveUser(User.fromJson(data));
       return User.fromJson(data);
     }else {

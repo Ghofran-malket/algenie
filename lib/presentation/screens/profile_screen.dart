@@ -24,11 +24,11 @@ class ProfileScreen extends StatelessWidget {
             builder: (context, snapshot) {
               if (!snapshot.hasData) return CircularProgressIndicator();
 
-              var customer = snapshot.data!;
+              var user = snapshot.data!;
               return Column(
                 children: [
                   UserDataWidget(
-                    user: customer,
+                    user: user,
                     title: 'Profile',
                   ),
 

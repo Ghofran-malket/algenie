@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:algenie/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_bubble/chat_bubble.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,18 +9,16 @@ class MessageWidget extends StatelessWidget {
   final bool myMessage;
   final String message;
   final String type;
-  final String? image;
+  final User receiver;
   final String? orderId;
-  final String? receiverId;
 
   const MessageWidget(
       {super.key,
       required this.myMessage,
       required this.message,
       required this.type,
-      this.image,
-      this.orderId,
-      this.receiverId});
+      required this.receiver,
+      this.orderId});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class MessageWidget extends StatelessWidget {
             ? Container()
             : CircleAvatar(
                 radius: ScreenUtil().setHeight(25),
-                backgroundImage: AssetImage('assets/person.png'),
+                backgroundImage: receiver.image!.startsWith("http") ? NetworkImage(receiver.image!) : FileImage(File(receiver.image!),)
               ),
         ChatBubble(
           clipper: ChatBubbleClipper6(

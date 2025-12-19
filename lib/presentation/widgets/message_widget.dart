@@ -41,6 +41,7 @@ class MessageWidget extends StatelessWidget {
           alignment: myMessage ? Alignment.topCenter : null,
           backGroundColor: myMessage ? Color(0xFFAB2929) : Colors.white,
           margin: EdgeInsets.only(top: 20),
+          elevation: 10,
           child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width * 0.7,

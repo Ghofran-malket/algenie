@@ -1,3 +1,4 @@
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:algenie/presentation/widgets/slider_button_widget.dart';
@@ -42,14 +43,7 @@ class OrderStagesBaseScreen extends StatelessWidget {
                       ScreenUtil().setWidth(8),
                     )),
                     boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.12),
-                        offset: Offset(
-                          0.0,
-                          ScreenUtil().setWidth(3.0),
-                        ), //(x,y)
-                        blurRadius: ScreenUtil().setWidth(6.0),
-                      ),
+                       AppStyle.softShowStyle
                     ],
                   ),
                   height: ScreenUtil().setHeight(200),
@@ -68,14 +62,7 @@ class OrderStagesBaseScreen extends StatelessWidget {
                       ScreenUtil().setWidth(8),
                     )),
                     boxShadow: [
-                      BoxShadow(
-                        color: Color.fromRGBO(0, 0, 0, 0.12),
-                        offset: Offset(
-                          0.0,
-                          ScreenUtil().setWidth(3.0),
-                        ), 
-                        blurRadius: ScreenUtil().setWidth(6.0),
-                      ),
+                       AppStyle.softShowStyle
                     ],
                   ),
                 padding: EdgeInsets.all(20),

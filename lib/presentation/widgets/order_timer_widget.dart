@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 class CountdownTimerWidget extends StatefulWidget {
   const CountdownTimerWidget({super.key});
@@ -51,15 +51,22 @@ class _CountdownTimerWidgetState extends State<CountdownTimerWidget> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        margin: EdgeInsets.all(5),
         decoration: BoxDecoration(
             color: Color(0xFFAB2929),
+            boxShadow: [
+              AppStyle.primaryShowStyle
+            ],
             borderRadius:
                 BorderRadius.all(Radius.circular(ScreenUtil().setWidth(8)))),
         child: Text(
           formatTime(_remainingSeconds),
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(color:Colors.white),
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(color: Colors.white),
         ),
       ),
     );

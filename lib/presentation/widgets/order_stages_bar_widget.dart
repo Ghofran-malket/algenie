@@ -50,7 +50,7 @@ class OrderStagesBarWidget extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                order.customerId,
+                "#${order.orderId.substring(0, 4)}",
                 textAlign: TextAlign.start,
                 style: Theme.of(context).textTheme.titleMedium,
               ),

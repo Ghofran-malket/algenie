@@ -1,3 +1,4 @@
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/chat_screen.dart';
 import 'package:algenie/presentation/screens/genie_screens/report_a_problem_screen.dart';
@@ -46,62 +47,86 @@ class ProfileScreen extends StatelessWidget {
 
                   //if genie has order then there is a call and chat button with customer
                   // then the userId is customerId
-                  order != null ? Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      //like button
-                      InkWell(
-                        onTap: () async {
-                          // go to contact call
-                          _makePhoneCall(user.number);
-                        },
-                        child: Container(
-                            height: ScreenUtil().setHeight(60),
-                            width: ScreenUtil().setHeight(60),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFFAB2929).withAlpha(50)),
-                            child: Icon(Icons.call, color: Color(0xFFAB2929))),
-                      ),
-                      SizedBox(
-                        width: ScreenUtil().setWidth(64),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          // go to chat screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) =>  ChatScreen(
-                                order: order!),
-                              ),
-                          );
-                        },
-                        child: Container(
-                            height: ScreenUtil().setHeight(60),
-                            width: ScreenUtil().setHeight(60),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFFAB2929).withAlpha(50)),
-                            child: Icon(Icons.chat, color: Color(0xFFAB2929))),
-                      ),
-                    ],
-                  ): Container(),
+                  order != null
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            //like button
+                            ElevatedButton(
+                                onPressed: () {
+                                  _makePhoneCall(user.number);
+                                },
+                                style: AppStyle.secElevatedBtnStyle.copyWith(
+                                  minimumSize: WidgetStateProperty.all(
+                                    Size(
+                                      ScreenUtil().setHeight(60),
+                                      ScreenUtil().setHeight(60),
+                                    ),
+                                  ),
+                                  backgroundColor: WidgetStateProperty.all(
+                                      Color(0xFFAB2929).withAlpha(50)),
+                                  shape:
+                                      WidgetStateProperty.all(CircleBorder()),
+                                ),
+                                child: Icon(
+                                  Icons.call,
+                                  color: Color(0xFFAB2929),
+                                  size: 25,
+                                )),
+
+                            SizedBox(
+                              width: ScreenUtil().setWidth(64),
+                            ),
+
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (context) =>
+                                          ChatScreen(order: order!),
+                                    ),
+                                  );
+                                },
+                                style: AppStyle.secElevatedBtnStyle.copyWith(
+                                  minimumSize: WidgetStateProperty.all(
+                                    Size(
+                                      ScreenUtil().setHeight(60),
+                                      ScreenUtil().setHeight(60),
+                                    ),
+                                  ),
+                                  backgroundColor: WidgetStateProperty.all(
+                                      Color(0xFFAB2929).withAlpha(50)),
+                                  shape:
+                                      WidgetStateProperty.all(CircleBorder()),
+                                ),
+                                child: Icon(
+                                  Icons.chat,
+                                  color: Color(0xFFAB2929),
+                                  size: 25,
+                                )),
+                          ],
+                        )
+                      : Container(),
                   SizedBox(height: ScreenUtil().setHeight(50)),
 
                   //button
                   //if genie has order then there is a sliderbutton
-                  order != null ? SliderButtonWidget(
-                      label: "Report a Customer",
-                      onAction: () async {
-                        // go to reports screen
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => ReportAProblemScreen(order:order!,),
-                          ),
-                        );
-                      }): Container(),
+                  order != null
+                      ? SliderButtonWidget(
+                          label: "Report a Customer",
+                          onAction: () async {
+                            // go to reports screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (context) => ReportAProblemScreen(
+                                  order: order!,
+                                ),
+                              ),
+                            );
+                          })
+                      : Container(),
                 ],
               );
             }),

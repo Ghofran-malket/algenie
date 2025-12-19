@@ -1,10 +1,12 @@
 import 'package:algenie/core/constants/app_constants.dart';
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/message_model.dart';
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/deliver_to_customer_screen.dart';
 import 'package:algenie/presentation/widgets/order_stages_bar_widget.dart';
 import 'package:algenie/presentation/widgets/order_timer_widget.dart';
 import 'package:algenie/presentation/widgets/slider_button_widget.dart';
+import 'package:algenie/presentation/widgets/text_button_widget.dart';
 import 'package:algenie/services/api_service.dart';
 import 'package:algenie/services/socket_services.dart';
 import 'package:flutter/material.dart';
@@ -75,17 +77,21 @@ class CustomerLocationScreen extends StatelessWidget {
                 SizedBox(
                   width: ScreenUtil().setWidth(8.4),
                 ),
-                InkWell(
-                  onTap: () async {
-                    Message message = Message(senderId: order.genieId, receiverId: order.customerId, 
-                      text: 'The genie is on the way and will arrive soon.');
-                    SocketService().sendMessage(chatId: ChatId, message: message);
+                TextButtonWidget(
+                  function: () {
+                    Message message = Message(
+                        senderId: order.genieId,
+                        receiverId: order.customerId,
+                        text: 'The genie is on the way and will arrive soon.');
+                    SocketService()
+                        .sendMessage(chatId: ChatId, message: message);
                   },
-                  child: Text(
-                    "Navigate",
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xFFAB2929), fontWeight: FontWeight.bold)
-                  ),
-                )
+                  text: "Navigate",
+                  textStyle: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
               ],
             ),
 
@@ -105,10 +111,11 @@ class CustomerLocationScreen extends StatelessWidget {
                       SizedBox(
                         width: ScreenUtil().setWidth(4),
                       ),
-                      Text(
-                        "Customer Address",
-                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Color(0xFF252B37),)
-                      )
+                      Text("Customer Address",
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    color: Color(0xFF252B37),
+                                  ))
                     ],
                   ),
                   SizedBox(
@@ -121,39 +128,33 @@ class CustomerLocationScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(
                         ScreenUtil().setWidth(8),
                       )),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.12),
-                          offset: Offset(
-                            0.0,
-                            ScreenUtil().setWidth(3.0),
-                          ), //(x,y)
-                          blurRadius: ScreenUtil().setWidth(6.0),
-                        ),
-                      ],
+                      boxShadow: [AppStyle.softShowStyle],
                     ),
                     padding: EdgeInsets.only(
                         top: 12, bottom: 12, left: 12, right: 22),
-                    child: Text(
-                      "${order.orderLocation}",
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Color(0xFF252B37),)
-                    ),
+                    child: Text("${order.orderLocation}",
+                        style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                              color: Color(0xFF252B37),
+                            )),
                   ),
                   SizedBox(height: ScreenUtil().setHeight(40)),
                   SliderButtonWidget(
                     label: "Arrived to Cutomer",
-                    onAction: () async{
+                    onAction: () async {
                       final navigator = Navigator.of(context);
-                      await AuthService().updateGenieProgress(orderId: order.orderId, step: 'deliverToCustomer');
-                      Message message = Message(senderId: order.genieId, receiverId: order.customerId, 
-                        text: 'The genie has arrived.');
-                      SocketService().sendMessage(chatId: ChatId, message: message);
-                      navigator.push(
-                          MaterialPageRoute(
-                            builder: (context) => DeliverToCustomerScreen(
-                              order: order,
-                            ),
-                          ));
+                      await AuthService().updateGenieProgress(
+                          orderId: order.orderId, step: 'deliverToCustomer');
+                      Message message = Message(
+                          senderId: order.genieId,
+                          receiverId: order.customerId,
+                          text: 'The genie has arrived.');
+                      SocketService()
+                          .sendMessage(chatId: ChatId, message: message);
+                      navigator.push(MaterialPageRoute(
+                        builder: (context) => DeliverToCustomerScreen(
+                          order: order,
+                        ),
+                      ));
                     },
                   ),
                   SizedBox(height: ScreenUtil().setHeight(20)),

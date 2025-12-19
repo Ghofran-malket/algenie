@@ -1,7 +1,9 @@
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/home_screen.dart';
 import 'package:algenie/presentation/screens/genie_screens/report_a_problem_screen.dart';
 import 'package:algenie/presentation/widgets/slider_button_widget.dart';
+import 'package:algenie/presentation/widgets/text_button_widget.dart';
 import 'package:algenie/presentation/widgets/user_data_widget.dart';
 import 'package:algenie/services/api_service.dart';
 import 'package:flutter/material.dart';
@@ -74,8 +76,10 @@ class _RateScreenState extends State<RateScreen> {
                             height: ScreenUtil().setHeight(60),
                             width: ScreenUtil().setHeight(60),
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey[200]),
+                              shape: BoxShape.circle,
+                              color: Colors.grey[200],
+                              boxShadow: [AppStyle.softShowStyle]
+                            ),
                             child:
                                 Icon(Icons.thumb_up_rounded, color: likeClicked ?Color(0xFFAB2929) :Colors.grey)),
                       ),
@@ -95,8 +99,9 @@ class _RateScreenState extends State<RateScreen> {
                             height: ScreenUtil().setHeight(60),
                             width: ScreenUtil().setHeight(60),
                             decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey[200]
+                              shape: BoxShape.circle,
+                              color: Colors.grey[200],
+                              boxShadow: [AppStyle.softShowStyle]
                             ),
                             child:
                                 Icon(Icons.thumb_down_rounded, color: disLikeClicked ?Color(0xFFAB2929) :Colors.grey)),
@@ -121,9 +126,9 @@ class _RateScreenState extends State<RateScreen> {
                   
                   SizedBox(height: 20),
                   
-                  GestureDetector(
-                    onTap: () async {
-                      final navigator = Navigator.of(context);
+                  TextButtonWidget(
+                    function: () async {
+                     final navigator = Navigator.of(context);
                       await AuthService().updateGenieProgress(orderId: widget.order.orderId, step: 'delivered');
                       navigator.popUntil((route) => route.isFirst);
                       navigator.push(
@@ -132,13 +137,12 @@ class _RateScreenState extends State<RateScreen> {
                           ),
                         );
                     },
-                    child: Text(
-                      "Go more orders",
-                      textAlign: TextAlign.left,
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xFFAB2929), fontWeight: FontWeight.bold)
-                    ),
-                  ),
-              
+                    text: "Go more orders",
+                    textStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  ),              
                 ],
               );
             }

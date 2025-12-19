@@ -1,3 +1,4 @@
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:slider_button/slider_button.dart';
@@ -15,24 +16,31 @@ class SliderButtonWidget extends StatelessWidget {
         Expanded(
           child: Directionality(
                 textDirection: TextDirection.ltr,
-                child: SliderButton(
-                  action: () async => onAction(),
-                  alignLabel: Alignment.center,
-                  backgroundColor: Color(0xFFAB2929),
-                  shimmer: false,
-                  height: ScreenUtil().setHeight(40),
-                  radius: ScreenUtil().setWidth(20),
-                  buttonColor: Colors.white,
-                  buttonSize: 40,
-                  baseColor: Color(0xFFAB2929),
-                  label: Text(
-                    label,
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(20))),
+                    boxShadow:[AppStyle.primaryShowStyle]
                   ),
-                  icon: const Center(
-                    child: Icon(
-                      Icons.lock,
-                      color: Color(0xFF252B37),
+                  child: SliderButton(
+                    action: () async => onAction(),
+                    alignLabel: Alignment.center,
+                    backgroundColor: Color(0xFFAB2929),
+                    shimmer: false,
+                    height: ScreenUtil().setHeight(40),
+                    radius: ScreenUtil().setWidth(20),
+                    buttonColor: Colors.white,
+                    buttonSize: 40,
+                    baseColor: Color(0xFFAB2929),
+                    boxShadow: AppStyle.primaryShowStyle,
+                    label: Text(
+                      label,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
+                    ),
+                    icon: const Center(
+                      child: Icon(
+                        Icons.lock,
+                        color: Color(0xFF252B37),
+                      ),
                     ),
                   ),
                 )),

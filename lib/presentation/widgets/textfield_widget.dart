@@ -1,3 +1,4 @@
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -31,14 +32,7 @@ class TextFieldWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
-          BoxShadow(
-            color: const Color.fromRGBO(0, 0, 0, 0.122),
-            offset: Offset(
-              0.0,
-              ScreenUtil().setWidth(3.0),
-            ), //(x,y)
-            blurRadius: ScreenUtil().setWidth(6.0),
-          ),
+          AppStyle.softShowStyle
         ],
         borderRadius: BorderRadius.all(Radius.circular(
           ScreenUtil().setWidth(20),

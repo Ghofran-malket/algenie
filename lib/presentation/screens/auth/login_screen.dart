@@ -2,6 +2,7 @@ import 'package:algenie/presentation/screens/auth/register_screen.dart';
 import 'package:algenie/presentation/screens/invite_friends_screen.dart';
 import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
+import 'package:algenie/presentation/widgets/text_button_widget.dart';
 import 'package:algenie/presentation/widgets/textfield_widget.dart';
 import 'package:algenie/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       topLeft: Radius.circular(ScreenUtil().setWidth(11)),
                       topRight: Radius.circular(ScreenUtil().setWidth(11))),
                 ),
-                height: sizeAware.height * 0.45,
+                height: sizeAware.height * 0.48,
                 child: Column(
                   children: [
                     Padding(
@@ -115,11 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.symmetric(
                             vertical: ScreenUtil().setHeight(5)),
                         child: TextFieldWidget(
-                          hint: 'Email',
-                          controller: emailController,
-                          icon: Icons.email,
-                          keyboardType: TextInputType.emailAddress
-                        )),
+                            hint: 'Email',
+                            controller: emailController,
+                            icon: Icons.email,
+                            keyboardType: TextInputType.emailAddress)),
 
                     // password text field
                     Padding(
@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: passwordController,
                           icon: Icons.password,
                         )),
-                    
+
                     Padding(
                       padding: EdgeInsets.symmetric(
                           vertical: ScreenUtil().setHeight(10)),
@@ -138,35 +138,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Color(0xFFAB2929),
                           title: 'Sign in',
                           isLoading: loading,
-                          function: () => {handleLogin(context)}
-                      ),
+                          function: () => {handleLogin(context)}),
                     ),
                     Center(
                         child: Text(
                       "Don't Have an Account?",
-                      style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.grey),
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .copyWith(color: Colors.grey),
                     )),
-                    
-                    SizedBox(height: ScreenUtil().setHeight(10)),
 
-                    Center(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                              builder: (context) => const RegisterScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          "Register Now",
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Color(0xFFAB2929)),
-                        ),
-                      ),
+                    TextButtonWidget(
+                      text: "Register Now",
+                      textStyle: Theme.of(context).textTheme.titleMedium!,
+                      function: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => const RegisterScreen(),
+                          ),
+                        )
+                      },
                     ),
-
                     SizedBox(height: ScreenUtil().setHeight(10)),
                   ],
                 ),
@@ -182,10 +176,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
-          child: Text(
-        "Account doesn't Exist please Register",
-        style: Theme.of(context).textTheme.labelSmall!.copyWith(color: Color(0xFFAB2929))
-      )),
+          child: Text("Account doesn't Exist please Register",
+              style: Theme.of(context)
+                  .textTheme
+                  .labelSmall!
+                  .copyWith(color: Color(0xFFAB2929)))),
     );
   }
 }

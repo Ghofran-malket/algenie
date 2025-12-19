@@ -5,6 +5,7 @@ import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/order_details-screen.dart';
 import 'package:algenie/presentation/widgets/notification_timer_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
+import 'package:algenie/presentation/widgets/text_button_widget.dart';
 import 'package:algenie/services/genie_services.dart';
 import 'package:algenie/services/socket_services.dart';
 import 'package:flutter/material.dart';
@@ -102,11 +103,12 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
               ),
             ),
             SizedBox(height: ScreenUtil().setHeight(6)),
-            Text(
-              "10 Minutes Away",
-              textAlign: TextAlign.left,
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Color(0xFF858585))
-            ),
+            Text("10 Minutes Away",
+                textAlign: TextAlign.left,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Color(0xFF858585))),
             SizedBox(
               height: ScreenUtil().setHeight(5),
             ),
@@ -114,16 +116,15 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 //order.chargeService}
-                Text(
-                  "50\$ ",
-                  textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Color(0xFFAB2929))
-                ),
-                Text(
-                  " Estimated Total",
-                  textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.titleMedium
-                )
+                Text("50\$ ",
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Color(0xFFAB2929))),
+                Text(" Estimated Total",
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.titleMedium)
               ],
             ),
             Spacer(),
@@ -132,7 +133,10 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                 title: "let's go",
                 isLoading: clicked,
                 function: () async {
-                  Message message = Message(senderId: widget.order.genieId, receiverId: widget.order.customerId, text: 'Genie accept your order');
+                  Message message = Message(
+                      senderId: widget.order.genieId,
+                      receiverId: widget.order.customerId,
+                      text: 'Genie accept your order');
                   final navigator = Navigator.of(context);
                   await GenieService().acceptOrder(widget.order.orderId);
                   SocketService().sendMessage(chatId: ChatId, message: message);
@@ -142,15 +146,17 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                   player.dispose();
                   navigator.push(
                     MaterialPageRoute(
-                      builder: (context) => OrderDetailsScreen(order: widget.order)),
+                        builder: (context) =>
+                            OrderDetailsScreen(order: widget.order)),
                   );
                 }),
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                InkWell(
-                  onTap: () async {
+                TextButtonWidget(
+                  text: "Reject",
+                  function: () async {
                     final navigator = Navigator.of(context);
                     await GenieService().rejectOrder(widget.order.orderId);
                     setState(() {
@@ -159,14 +165,12 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                     player.dispose();
                     navigator.pop();
                   },
-                  child: Text(
-                    "Reject",
-                    textAlign: TextAlign.left,
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Color(0xFFAB2929),)
-                  ),
                 ),
-                InkWell(
-                  onTap: () async {
+                TextButtonWidget(
+                  text: "More details ...",
+                  textStyle: Theme.of(context).textTheme.titleSmall,
+                  color: Colors.black,
+                  function: () async {
                     final navigator = Navigator.of(context);
                     setState(() {
                       clicked = true;
@@ -176,16 +180,12 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                     //go to order deatils screen with accept and reject buttons
                     navigator.push(
                       MaterialPageRoute(
-                          builder: (context) =>
-                              OrderDetailsScreen(order: widget.order, fromNotification: true,)),
+                          builder: (context) => OrderDetailsScreen(
+                                order: widget.order,
+                                fromNotification: true,
+                              )),
                     );
                   },
-                  child: Text(
-                    "More details ...",
-                    textAlign: TextAlign.left,
-                    softWrap: true,
-                    style: Theme.of(context).textTheme.titleSmall
-                  ),
                 ),
               ],
             ),

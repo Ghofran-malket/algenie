@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/report_model.dart';
+import 'package:algenie/presentation/widgets/text_button_widget.dart';
 import 'package:algenie/services/api_service.dart';
 import 'package:algenie/services/order_api_services.dart';
 import 'package:flutter/material.dart';
@@ -118,14 +120,7 @@ class _ReportAProblemScreenState extends State<ReportAProblemScreen> {
                                       borderRadius: const 
                                           BorderRadius.all(Radius.circular(3.0)),
                                       boxShadow: [
-                                        BoxShadow(
-                                          color: const Color.fromRGBO(0, 0, 0, 0.16),
-                                          offset: Offset(
-                                            0.0,
-                                            ScreenUtil().setWidth(1.0),
-                                          ), //(x,y)
-                                          blurRadius: ScreenUtil().setWidth(3.0),
-                                        ),
+                                        AppStyle.softShowStyle
                                       ],
                                       color: Colors.white),
                                   child: isChecked
@@ -192,10 +187,9 @@ class _ReportAProblemScreenState extends State<ReportAProblemScreen> {
                   ),
 
                   SizedBox(height: 20),
-
                   Center(
-                    child: InkWell(
-                      onTap: () async {
+                    child: TextButtonWidget(
+                      function: () async {
                         final navigator = Navigator.of(context);
                         await OrderApiService().updateOrderStatus(widget.order.orderId, "canceled");
                         navigator.pop((route) => route.isFirst);
@@ -203,13 +197,14 @@ class _ReportAProblemScreenState extends State<ReportAProblemScreen> {
                           MaterialPageRoute(builder: (context) => GenieHome()),
                         );
                       },
-                      child: Text(
-                        "Cancel Order",
-                        textAlign: TextAlign.left,
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xFFAB2929), fontWeight: FontWeight.bold)
-                      ),
+                      text: "Cancel Order",
+                      textStyle: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
                     ),
-                  ),
+                  )
+                  
                 ],
               );
             }),

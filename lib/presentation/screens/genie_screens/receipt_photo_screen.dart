@@ -1,6 +1,8 @@
 import 'package:algenie/core/constants/app_constants.dart';
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/message_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/customer_location_screen.dart';
+import 'package:algenie/presentation/widgets/text_button_widget.dart';
 import 'package:algenie/services/api_service.dart';
 import 'package:algenie/services/socket_services.dart';
 import 'package:flutter/material.dart';
@@ -140,14 +142,7 @@ class _ReceiptPhotoScreenScreenState extends State<ReceiptPhotoScreen> {
                         ScreenUtil().setWidth(8),
                       )),
                       boxShadow: [
-                        BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.12),
-                          offset: Offset(
-                            0.0,
-                            ScreenUtil().setWidth(3.0),
-                          ),
-                          blurRadius: ScreenUtil().setWidth(6.0),
-                        ),
+                        AppStyle.softShowStyle
                       ],
                       image: _imageFile != null
                           ? DecorationImage(
@@ -167,26 +162,25 @@ class _ReceiptPhotoScreenScreenState extends State<ReceiptPhotoScreen> {
                   SizedBox(
                     height: ScreenUtil().setHeight(20),
                   ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        _imageFile = null;
-                        noPhoto = true;
-                      });
-                      Future.delayed(
-                        Duration(seconds: 1),
-                        () => _pickImage(),
-                      );
-                    },
-                    child: Center(
-                        child: Text(
-                      "Retake reciept photo",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xFFAB2929), fontWeight: FontWeight.bold)
-                    )),
+                  Center(
+                    child: TextButtonWidget(
+                      function: () {
+                        setState(() {
+                          _imageFile = null;
+                          noPhoto = true;
+                        });
+                        Future.delayed(
+                          Duration(seconds: 1),
+                          () => _pickImage(),
+                        );
+                      },
+                      text: "Retake reciept photo",
+                      textStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   SizedBox(height: ScreenUtil().setHeight(10)),
                   noPhoto ? emptyField() : Container(),
-                  SizedBox(height: ScreenUtil().setHeight(10)),
+                  SizedBox(height: ScreenUtil().setHeight(20)),
                   TextFieldWidget(
                     hint: "Receipt value",
                     controller: receiptController,

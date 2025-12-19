@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/order_details-screen.dart';
 import 'package:algenie/presentation/widgets/drawer.dart';
@@ -66,17 +67,21 @@ class _GenieHomeState extends State<GenieHome> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: const AssetImage('assets/background.jpg',),
-                        fit: BoxFit.cover,
-                        alignment: Alignment.center,
+                    image: DecorationImage(
+                      image: const AssetImage(
+                        'assets/background.jpg',
                       ),
+                      fit: BoxFit.cover,
+                      alignment: Alignment.center,
                     ),
+                  ),
                 ),
-                Container(        
+                Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: const AssetImage('assets/bg-genie.png',),
+                        image: const AssetImage(
+                          'assets/bg-genie.png',
+                        ),
                         fit: BoxFit.contain,
                         alignment: Alignment.center,
                       ),
@@ -100,7 +105,7 @@ class _GenieHomeState extends State<GenieHome> {
                             offset: Offset(
                               0.0,
                               ScreenUtil().setWidth(-2.0),
-                            ), //(x,y)
+                            ),
                             blurRadius: ScreenUtil().setWidth(6.0),
                           ),
                         ],
@@ -117,8 +122,10 @@ class _GenieHomeState extends State<GenieHome> {
                         minHeight: ScreenUtil().setHeight(90), //146
                         maxHeight: ScreenUtil().setHeight(190), //246
                         borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(ScreenUtil().setWidth(11)),
-                            topLeft: Radius.circular(ScreenUtil().setWidth(11))),
+                            topRight:
+                                Radius.circular(ScreenUtil().setWidth(11)),
+                            topLeft:
+                                Radius.circular(ScreenUtil().setWidth(11))),
                         collapsed: loading
                             ? Center(
                                 child: SpinKitThreeBounce(
@@ -135,7 +142,8 @@ class _GenieHomeState extends State<GenieHome> {
                                         Padding(
                                           padding: EdgeInsets.only(
                                               top: ScreenUtil().setHeight(1.5),
-                                              bottom: ScreenUtil().setHeight(29.5)),
+                                              bottom:
+                                                  ScreenUtil().setHeight(29.5)),
                                           child: SizedBox(
                                             height: ScreenUtil().setHeight(2.0),
                                             width: ScreenUtil().setWidth(43),
@@ -156,18 +164,33 @@ class _GenieHomeState extends State<GenieHome> {
                                               color: Color(
                                                   0xFFED1B24), //AnimatedTextKit FadeAnimatedText
                                               size: 40,
+                                              shadows: [AppStyle.softShowStyle],
                                             ),
                                             Expanded(
                                               child: AnimatedTextKit(
                                                 animatedTexts: [
                                                   FadeAnimatedText(
                                                     "looking for customers",
-                                                    textStyle: Theme.of(context).textTheme.titleMedium,
+                                                    textStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium!
+                                                        .copyWith(
+                                                      shadows: [
+                                                        AppStyle.softShowStyle
+                                                      ],
+                                                    ),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                   FadeAnimatedText(
                                                     "You are online in collapsed",
-                                                    textStyle: Theme.of(context).textTheme.titleMedium,
+                                                    textStyle: Theme.of(context)
+                                                        .textTheme
+                                                        .titleMedium!
+                                                        .copyWith(
+                                                      shadows: [
+                                                        AppStyle.softShowStyle
+                                                      ],
+                                                    ),
                                                     textAlign: TextAlign.center,
                                                   ),
                                                 ],
@@ -175,10 +198,10 @@ class _GenieHomeState extends State<GenieHome> {
                                               ),
                                             ),
                                             Center(
-                                                child: Image.asset(
-                                              'assets/look-for.png',
-                                              width: ScreenUtil().setWidth(48),
-                                              height: ScreenUtil().setHeight(48),
+                                              child: Image.asset(
+                                                'assets/look-for-customer.png',
+                                                width: ScreenUtil().setWidth(48),
+                                                height: ScreenUtil().setHeight(48),
                                             ))
                                           ],
                                         ),
@@ -207,29 +230,21 @@ class _GenieHomeState extends State<GenieHome> {
                                           BorderRadius.all(Radius.circular(
                                         ScreenUtil().setWidth(19),
                                       )),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color:
-                                              const Color.fromRGBO(0, 0, 0, 0.12),
-                                          offset: Offset(
-                                            0.0,
-                                            ScreenUtil().setWidth(3.0),
-                                          ), //(x,y)
-                                          blurRadius: ScreenUtil().setWidth(6.0),
-                                        ),
-                                      ],
+                                      boxShadow: [AppStyle.softShowStyle],
                                     ),
-                                    padding:
-                                        EdgeInsets.all(ScreenUtil().setWidth(5)),
+                                    padding: EdgeInsets.all(
+                                        ScreenUtil().setWidth(5)),
                                     child: Image.asset('assets/group55.png'),
                                   ),
                                 ),
-                                InkWell(
-                                  onTap: () async {},
-                                  child: Text(
-                                    'Enjoy your offers',
-                                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: Colors.white),
-                                  ),
+                                Text(
+                                  'Enjoy your offers',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineMedium!
+                                      .copyWith(
+                                          color: Colors.white,
+                                          shadows: [AppStyle.softShowStyle]),
                                 ),
                                 Builder(
                                   builder: (context) => (InkWell(
@@ -243,29 +258,38 @@ class _GenieHomeState extends State<GenieHome> {
                           ),
                           !auth.isOnline!
                               ? Container()
-                              : widget.order != null ? Positioned(
-                                  top: ScreenUtil().setHeight(100),
-                                  right: ScreenUtil().setWidth(5),
-                                  left: ScreenUtil().setWidth(5),
-                                  child: Padding(
+                              : widget.order != null
+                                  ? Positioned(
+                                      top: ScreenUtil().setHeight(100),
+                                      right: ScreenUtil().setWidth(5),
+                                      left: ScreenUtil().setWidth(5),
+                                      child: Padding(
                                           padding: EdgeInsets.symmetric(
                                               horizontal:
                                                   ScreenUtil().setWidth(17)),
-                                          child: InkWell(
-                                              onTap: () async {
-                                                final navigator = Navigator.of(context);
-                                                await AuthService().updateGenieProgress(orderId: widget.order!.orderId, 
-                                                step: 'orderDetails');
+                                          child: ElevatedButton(
+                                              style: AppStyle
+                                                  .primaryElevatedBtnStyle,
+                                              onPressed: () async {
+                                                final navigator =
+                                                    Navigator.of(context);
+                                                await AuthService()
+                                                    .updateGenieProgress(
+                                                        orderId: widget
+                                                            .order!.orderId,
+                                                        step: 'orderDetails');
                                                 navigator.push(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           OrderDetailsScreen(
-                                                              order: widget.order!)),
+                                                              order: widget
+                                                                  .order!)),
                                                 );
                                               },
                                               child: OrderCardWidget(
                                                   order: widget.order!))),
-                                ) : Container()
+                                    )
+                                  : Container()
                         ]))),
               ],
             )));
@@ -288,25 +312,42 @@ class _GenieHomeState extends State<GenieHome> {
         ),
         Text(
           "You Are Online",
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(shadows: [AppStyle.softShowStyle]),
         ),
         Padding(
           padding: EdgeInsets.only(
               top: ScreenUtil().setHeight(18),
               bottom: ScreenUtil().setHeight(8)),
-          child: InkWell(
-              onTap: () async {
-                await context.read<AuthProvider>().goOffline();
-              },
-              child: Image.asset(
-                'assets/online.png',
-                width: ScreenUtil().setHeight(60),
-                height: ScreenUtil().setHeight(60),
-              )),
+          child: ElevatedButton(
+            onPressed: () async {
+              await context.read<AuthProvider>().goOffline();
+            },
+            style: AppStyle.secElevatedBtnStyle.copyWith(
+              minimumSize: WidgetStateProperty.all(
+                Size(
+                  ScreenUtil().setHeight(60),
+                  ScreenUtil().setHeight(60),
+                ),
+              ),
+              backgroundColor: WidgetStateProperty.all(Color(0xFFAB2929)),
+              shape: WidgetStateProperty.all(CircleBorder()),
+            ),
+            child: Icon(
+              Icons.power_settings_new,
+              size: ScreenUtil().setHeight(40),
+              color: Colors.white,
+            ),
+          ),
         ),
         Text(
           "Go Offline",
-          style: Theme.of(context).textTheme.titleMedium,
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(shadows: [AppStyle.softShowStyle]),
         ),
       ],
     );
@@ -353,7 +394,10 @@ class _GenieHomeState extends State<GenieHome> {
               children: <Widget>[
                 Text(
                   "You Are Offline",
-                  style: Theme.of(context).textTheme.titleMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(shadows: [AppStyle.softShowStyle]),
                 ),
                 InkWell(
                   onTap: () async {
@@ -364,7 +408,9 @@ class _GenieHomeState extends State<GenieHome> {
                     //   ),
                     // );
                     //genieRepository.updateGenieLocation();
-                    await context.read<AuthProvider>().goOnline(currentLocation: await getCurrentLocation());
+                    await context
+                        .read<AuthProvider>()
+                        .goOnline(currentLocation: await getCurrentLocation());
                   },
                   child: Container(
                     width: ScreenUtil().setWidth(126),
@@ -378,16 +424,7 @@ class _GenieHomeState extends State<GenieHome> {
                         ScreenUtil().setWidth(8),
                       )),
                       color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromRGBO(0, 0, 0, 0.12),
-                          offset: Offset(
-                            0.0,
-                            ScreenUtil().setWidth(3.0),
-                          ), //(x,y)
-                          blurRadius: ScreenUtil().setWidth(6.0),
-                        ),
-                      ],
+                      boxShadow: [AppStyle.softShowStyle],
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -396,13 +433,18 @@ class _GenieHomeState extends State<GenieHome> {
                           Icons.power_settings_new,
                           color: Color(0xFFAB2929),
                           size: ScreenUtil().setWidth(18),
+                          shadows: [AppStyle.softShowStyle],
                         ),
                         SizedBox(
                           width: ScreenUtil().setWidth(4),
                         ),
                         Text(
                           "Go Online",
-                          style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Color(0xFFAB2929)),
+                          style:
+                              Theme.of(context).textTheme.titleSmall!.copyWith(
+                            color: Color(0xFFAB2929),
+                            shadows: [AppStyle.softShowStyle],
+                          ),
                         )
                       ],
                     ),

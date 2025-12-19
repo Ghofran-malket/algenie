@@ -8,29 +8,41 @@ class PrimaryButtonWidget extends StatelessWidget {
   bool isLoading;
   GestureTapCallback function;
 
-  PrimaryButtonWidget({super.key, required this.color, required this.title, required this.isLoading, required this.function});
+  PrimaryButtonWidget(
+      {super.key,
+      required this.color,
+      required this.title,
+      required this.isLoading,
+      required this.function});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: function,
-      child: Container(
-        height: ScreenUtil().setHeight(40),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.all(
-          Radius.circular(ScreenUtil().setWidth(20))),
+    return FilledButton.tonal(
+      style: FilledButton.styleFrom(
+        backgroundColor: color,
+        shadowColor: Color(0xFF252B37).withValues(alpha: 0.8),
+        elevation: ScreenUtil().setWidth(10),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(ScreenUtil().setWidth(20)),
         ),
-        child: Center(
-          child: isLoading ? SpinKitThreeBounce(
-            color: Colors.white,
-            size: 30,
-          ): Text( title,
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
-          )
-        ),
+        minimumSize:
+            Size(double.infinity, ScreenUtil().setHeight(40)), // height
       ),
+      onPressed: function,
+      child: Center(
+          child: isLoading
+              ? SpinKitThreeBounce(
+                  color: Colors.white,
+                  size: 30,
+                )
+              : Text(
+                  title,
+                  textAlign: TextAlign.left,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: Colors.white),
+                )),
     );
   }
 }

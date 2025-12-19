@@ -1,4 +1,5 @@
 import 'package:algenie/core/constants/app_constants.dart';
+import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/message_model.dart';
 import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/rate_screen.dart';
@@ -104,14 +105,7 @@ class _DeliverToCustomerScreenState extends State<DeliverToCustomerScreen> {
                               borderRadius: const 
                                   BorderRadius.all(Radius.circular(3.0)),
                               boxShadow: [
-                                BoxShadow(
-                                  color: const Color.fromRGBO(0, 0, 0, 0.16),
-                                  offset: Offset(
-                                    0.0,
-                                    ScreenUtil().setWidth(1.0),
-                                  ), //(x,y)
-                                  blurRadius: ScreenUtil().setWidth(3.0),
-                                ),
+                                AppStyle.softShowStyle
                               ],
                               color: Colors.white),
                           child: checked

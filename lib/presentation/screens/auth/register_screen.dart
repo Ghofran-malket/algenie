@@ -154,7 +154,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                   ),
-                  Image.asset('assets/logoCircle.png')
                 ],
               ),
 

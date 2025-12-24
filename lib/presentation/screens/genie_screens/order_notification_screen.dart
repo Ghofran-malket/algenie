@@ -144,6 +144,7 @@ class OrderNotificationScreenState extends State<OrderNotificationScreen> {
                     clicked = true;
                   });
                   player.dispose();
+                  navigator.popUntil((route) => route.isFirst);
                   navigator.push(
                     MaterialPageRoute(
                         builder: (context) =>

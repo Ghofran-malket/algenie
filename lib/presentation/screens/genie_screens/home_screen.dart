@@ -182,7 +182,7 @@ class _GenieHomeState extends State<GenieHome> {
                                                     textAlign: TextAlign.center,
                                                   ),
                                                   FadeAnimatedText(
-                                                    "You are online in collapsed",
+                                                    "You are online",
                                                     textStyle: Theme.of(context)
                                                         .textTheme
                                                         .titleMedium!
@@ -399,8 +399,8 @@ class _GenieHomeState extends State<GenieHome> {
                       .titleMedium!
                       .copyWith(shadows: [AppStyle.softShowStyle]),
                 ),
-                InkWell(
-                  onTap: () async {
+                ElevatedButton(
+                  onPressed: () async {
                     // genieBloc.add(
                     //   GoOnlineRequested(
                     //     lat: _initialPosition!.latitude,
@@ -412,42 +412,44 @@ class _GenieHomeState extends State<GenieHome> {
                         .read<AuthProvider>()
                         .goOnline(currentLocation: await getCurrentLocation());
                   },
-                  child: Container(
-                    width: ScreenUtil().setWidth(126),
-                    height: ScreenUtil().setHeight(33),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xFFAB2929),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    elevation: 0,
+                    shadowColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        ScreenUtil().setWidth(8),
+                      ),
+                      side: BorderSide(
+                        color: const Color(0xFFAB2929),
                         width: ScreenUtil().setWidth(1.5),
                       ),
-                      borderRadius: BorderRadius.all(Radius.circular(
-                        ScreenUtil().setWidth(8),
-                      )),
-                      color: Colors.white,
-                      boxShadow: [AppStyle.softShowStyle],
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.power_settings_new,
+                  ).copyWith(
+                    shadowColor: WidgetStateProperty.all(
+                      const Color(0xFFAB2929),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.power_settings_new,
+                        color: Color(0xFFAB2929),
+                        size: ScreenUtil().setWidth(18),
+                        shadows: [AppStyle.softShowStyle],
+                      ),
+                      SizedBox(
+                        width: ScreenUtil().setWidth(4),
+                      ),
+                      Text(
+                        "Go Online",
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
                           color: Color(0xFFAB2929),
-                          size: ScreenUtil().setWidth(18),
                           shadows: [AppStyle.softShowStyle],
                         ),
-                        SizedBox(
-                          width: ScreenUtil().setWidth(4),
-                        ),
-                        Text(
-                          "Go Online",
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                            color: Color(0xFFAB2929),
-                            shadows: [AppStyle.softShowStyle],
-                          ),
-                        )
-                      ],
-                    ),
+                      )
+                    ],
                   ),
                 )
               ],

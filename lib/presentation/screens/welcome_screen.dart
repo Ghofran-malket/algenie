@@ -1,5 +1,5 @@
 import 'package:algenie/presentation/screens/auth/login_screen.dart';
-import 'package:algenie/presentation/screens/customer_screens/customer-home.dart';
+import 'package:algenie/presentation/screens/customer_screens/home_screen.dart';
 import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:flutter/material.dart';
 

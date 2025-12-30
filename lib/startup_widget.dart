@@ -1,4 +1,5 @@
 import 'package:algenie/data/models/order_model.dart';
+import 'package:algenie/presentation/screens/customer_screens/home_screen.dart';
 import 'package:algenie/presentation/screens/genie_screens/customer_location_screen.dart';
 import 'package:algenie/presentation/screens/genie_screens/deliver_to_customer_screen.dart';
 import 'package:algenie/presentation/screens/genie_screens/home_screen.dart';
@@ -50,7 +51,7 @@ class StartupWidget extends StatelessWidget {
         final data = snapshot.data;
         final role = data['role'];
         //if customer then go to customer section
-        if(role == "customer") return Scaffold(body: Center(child:Text("Customer")));
+        if(role == "customer") return CustomerHomeScreen();
         //if genie go to genie section
         //final Order order = data['order'];
         final active = data['active'];

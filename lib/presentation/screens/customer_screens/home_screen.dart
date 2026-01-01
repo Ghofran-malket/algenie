@@ -2,6 +2,7 @@ import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/store_model.dart';
 import 'package:algenie/presentation/widgets/customer_home_bar_widget.dart';
 import 'package:algenie/presentation/widgets/store_card_widget.dart';
+import 'package:algenie/services/customer_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,14 +16,6 @@ class CustomerHomeScreen extends StatefulWidget {
   @override
   State<CustomerHomeScreen> createState() => _CustomerHomeScreenState();
 }
-
-Color badgeColor = Colors.white;
-List offersList = [
-  (photo: 'assets/apple1.jpg', title: 'Apple'),
-  (photo: 'assets/apple2.jpg', title: 'Apple'),
-  (photo: 'assets/apple1.jpg', title: 'Apple'),
-  (photo: 'assets/apple2.jpg', title: 'Apple')
-];
 
 List allItemsList = [
   (photo: 'assets/apple1.jpg', title: 'Apple'),
@@ -111,49 +104,62 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
                 SizedBox(
                   height: ScreenUtil().setHeight(120),
-                  child: ListView.builder(
-                      padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      itemCount: offersList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          splashColor: Color(0xFF252B37).withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(7),)),
-                          onTap: () {
-                          },
-                          child: Container(
-                            margin: EdgeInsets.all(10),
-                            padding: EdgeInsets.all(5),
-                            width: ScreenUtil().setHeight(100),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(ScreenUtil().setWidth(7))),
-                              image: DecorationImage(
-                                image: AssetImage(offersList[index].photo),
-                                fit: BoxFit.fill,
-                                colorFilter: ColorFilter.mode(
-                                  Color(0xFF252B37).withValues(alpha: 0.2),
-                                  BlendMode.darken,
+                  child: FutureBuilder(
+                    future: CustomerService().getOffersList(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return SpinKitFadingCircle(
+                          color: Color(0xFFAB2929),
+                          size: 30,
+                        );
+                      }
+
+                      final offersList = snapshot.data!;
+                      return ListView.builder(
+                          padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          itemCount: offersList.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return InkWell(
+                              splashColor: Color(0xFF252B37).withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(7),)),
+                              onTap: () {
+                              },
+                              child: Container(
+                                margin: EdgeInsets.all(10),
+                                padding: EdgeInsets.all(5),
+                                width: ScreenUtil().setHeight(100),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(ScreenUtil().setWidth(7))),
+                                  image: DecorationImage(
+                                    image: NetworkImage(offersList[index].image),
+                                    fit: BoxFit.fill,
+                                    colorFilter: ColorFilter.mode(
+                                      Color(0xFF252B37).withValues(alpha: 0.2),
+                                      BlendMode.darken,
+                                    ),
+                                  ),
+                                  boxShadow: [AppStyle.softShowStyle],
+                                ),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: Text(
+                                    offersList[index].title,
+                                    overflow: TextOverflow.clip,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall!
+                                        .copyWith(color: Colors.white,),
+                                  ),
                                 ),
                               ),
-                              boxShadow: [AppStyle.softShowStyle],
-                            ),
-                            child: Align(
-                              alignment: Alignment.bottomLeft,
-                              child: Text(
-                                offersList[index].title,
-                                overflow: TextOverflow.clip,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(color: Colors.white,),
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                            );
+                          });
+                    }
+                  ),
                 ),
                 SizedBox(height: ScreenUtil().setHeight(30)),
 

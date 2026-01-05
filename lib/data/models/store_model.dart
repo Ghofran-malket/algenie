@@ -1,11 +1,11 @@
-import 'package:algenie/data/models/item_model.dart';
+import 'package:algenie/data/models/order_item_model.dart';
 import 'package:geolocator/geolocator.dart';
 
 class Store {
   String id;
   String name;
   String title;
-  List<Item> items;
+  List<OrderItem> items;
   Position? location;
   String storeStatus;
 
@@ -19,7 +19,7 @@ class Store {
       id: json['_id'],
       name: json['name'],
       title: json['title'],
-      items: (json['items'] as List).map((itemJson) => Item.fromJson(itemJson)).toList(),
+      items: (json['items'] as List).map((itemJson) => OrderItem.fromJson(itemJson)).toList(),
       location: Position(
         longitude: json['storeLocation']['longitude'],
         latitude: json['storeLocation']['latitude'],

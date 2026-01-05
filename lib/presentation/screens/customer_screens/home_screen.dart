@@ -18,11 +18,6 @@ class CustomerHomeScreen extends StatefulWidget {
   State<CustomerHomeScreen> createState() => _CustomerHomeScreenState();
 }
 
-List allItemsList = [
-  (photo: 'assets/apple1.jpg', title: 'Apple'),
-  (photo: 'assets/apple2.jpg', title: 'Apple'),
-];
-
 class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -176,62 +171,79 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         color: Colors.black54)),
                 SizedBox(height: ScreenUtil().setHeight(15)),
 
-                CarouselSlider(
-                  items: allItemsList
-                      .map(
-                        (item) => InkWell(
-                          onTap: () {},
-                          splashColor: Color(0xFF252B37).withValues(alpha: 0.1),
-                          borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(7),)),
-                          child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: ScreenUtil().setWidth(10)),
-                              margin:
-                                  EdgeInsets.all(ScreenUtil().setHeight(10)),
-                              height: ScreenUtil().setHeight(130),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.all(Radius.circular(
-                                  ScreenUtil().setWidth(7),
-                                )),
-                                image: DecorationImage(
-                                  image: AssetImage(item.photo),
-                                  fit: BoxFit.cover,
-                                ),
-                                boxShadow: [AppStyle.softShowStyle],
-                              )),
-                        ),
-                      )
-                      .toList(),
-                  options: CarouselOptions(
-                    autoPlay: true,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        _current = index;
-                      });
-                    },
-                    height: ScreenUtil().setHeight(140),
-                  ),
-                ),
+                FutureBuilder(
+                    future: CustomerService().getItemsList(),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return SpinKitFadingCircle(
+                          color: Color(0xFFAB2929),
+                          size: 30,
+                        );
+                      }
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: allItemsList.map((item) {
-                    int index = allItemsList.indexOf(item);
-                    return Container(
-                      width: 8.0,
-                      height: 8.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        boxShadow: [AppStyle.softShowStyle],
-                        color: _current == index
-                            ? Color(0xFFAB2929)
-                            : Color(0xFF252B37).withValues(alpha: 0.3),
-                      ),
-                    );
-                  }).toList(),
+                      final itemsList = snapshot.data!;
+                      return Column(
+                        children: [
+                          CarouselSlider(
+                            items: itemsList
+                                .map(
+                                  (item) => InkWell(
+                                    onTap: () {},
+                                    splashColor: Color(0xFF252B37).withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(7),)),
+                                    child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: ScreenUtil().setWidth(10)),
+                                        margin:
+                                            EdgeInsets.all(ScreenUtil().setHeight(10)),
+                                        height: ScreenUtil().setHeight(130),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.all(Radius.circular(
+                                            ScreenUtil().setWidth(7),
+                                          )),
+                                          image: DecorationImage(
+                                            image: NetworkImage(item.image),
+                                            fit: BoxFit.contain,
+                                          ),
+                                          boxShadow: [AppStyle.softShowStyle],
+                                        )),
+                                  ),
+                                )
+                                .toList(),
+                            options: CarouselOptions(
+                              autoPlay: true,
+                              onPageChanged: (index, reason) {
+                                setState(() {
+                                  _current = index;
+                                });
+                              },
+                              height: ScreenUtil().setHeight(140),
+                            ),
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: itemsList.map((item) {
+                              int index = itemsList.indexOf(item);
+                              return Container(
+                                width: 8.0,
+                                height: 8.0,
+                                margin:
+                                    EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  boxShadow: [AppStyle.softShowStyle],
+                                  color: _current == index
+                                      ? Color(0xFFAB2929)
+                                      : Color(0xFF252B37).withValues(alpha: 0.3),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ],
+                      );
+                    }
                 ),
 
                 SizedBox(height: ScreenUtil().setHeight(20)),

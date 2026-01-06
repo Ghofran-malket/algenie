@@ -1,13 +1,22 @@
-class Item {
-  String title;
-  String description;
-  String image;
-  String price;
-  String category;
-  String storeId;
+import 'package:algenie/core/models/details_data_model.dart';
+import 'package:algenie/data/models/store_model.dart';
+
+class Item implements DetailsData{
+  @override String title;
+  @override String description;
+  @override String image;
+  @override String price;
+  @override String category;
+  @override Store store;
+  @override
+  String? get discountPercentage => null;
+  @override
+  DateTime? get expireDate => null;
+  @override
+  DateTime? get startDate => null;
 
   Item({required this.title, required this.description, required this.image, 
-  required this.price, required this.category, required this.storeId});
+  required this.price, required this.category, required this.store});
 
 
   factory Item.fromJson(Map<String, dynamic> json) {
@@ -17,7 +26,7 @@ class Item {
       image: json['image'],
       price: json['price'],
       category: json['category'],
-      storeId: json['store']
+      store: Store.fromJson(json['store'])
     );
   }
 
@@ -28,7 +37,7 @@ class Item {
       'image': image,
       'price': price,
       'category': category,
-      'store': storeId
+      'store': store.toJson()
     };
   }
 }

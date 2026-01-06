@@ -1,6 +1,6 @@
 import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/order_store_model.dart';
-import 'package:algenie/presentation/screens/customer_screens/offre_screen.dart';
+import 'package:algenie/presentation/screens/customer_screens/details_screen.dart';
 import 'package:algenie/presentation/widgets/customer_home_bar_widget.dart';
 import 'package:algenie/presentation/widgets/store_card_widget.dart';
 import 'package:algenie/services/customer_services.dart';
@@ -123,8 +123,8 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                               onTap: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute<void>(
-                                    builder: (context) => OfferDetailsScreen(offer: offersList[index], scaffoldKey: _scaffoldKey),
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsScreen(data: offersList[index], scaffoldKey: _scaffoldKey),
                                   ),
                                 );
                               },
@@ -188,7 +188,14 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             items: itemsList
                                 .map(
                                   (item) => InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DetailsScreen(data: item, scaffoldKey: _scaffoldKey),
+                                        ),
+                                      );
+                                    },
                                     splashColor: Color(0xFF252B37).withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(7),)),
                                     child: Container(

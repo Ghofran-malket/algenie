@@ -1,18 +1,19 @@
-class Offer {
-  String title;
-  String description;
-  String image;
-  String discountPercentage;
-  String price;
-  DateTime startDate;
-  DateTime expireDate;
-  String category;
-  String storeId;
+import 'package:algenie/core/models/details_data_model.dart';
+import 'package:algenie/data/models/store_model.dart';
 
-
+class Offer implements DetailsData {
+  @override String title;
+  @override String description;
+  @override String image;
+  @override String discountPercentage;
+  @override String price;
+  @override DateTime startDate;
+  @override DateTime expireDate;
+  @override String category;
+  @override Store store;
 
   Offer({required this.title, required this.description, required this.image, required this.discountPercentage,
-   required this.price, required this.startDate, required this.expireDate, required this.category, required this.storeId});
+   required this.price, required this.startDate, required this.expireDate, required this.category, required this.store});
 
   factory Offer.fromJson(Map<String, dynamic> json) {
     return Offer(
@@ -24,7 +25,7 @@ class Offer {
       startDate: DateTime.parse(json['startDate']),
       expireDate: DateTime.parse(json['expireDate']),
       category: json['category'],
-      storeId: json['store']
+      store: Store.fromJson(json['store'])
     );
   }
 
@@ -38,7 +39,7 @@ class Offer {
       'startDate': startDate,
       'expireDate': expireDate,
       'category': category,
-      'store': storeId
+      'store': store.toJson()
     };
   }
 }

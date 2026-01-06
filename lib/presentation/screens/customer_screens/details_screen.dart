@@ -1,16 +1,16 @@
+import 'package:algenie/core/models/details_data_model.dart';
 import 'package:algenie/core/styles/app_style.dart';
-import 'package:algenie/data/models/offer_model.dart';
 import 'package:algenie/presentation/widgets/customer_home_bar_widget.dart';
 import 'package:algenie/presentation/widgets/info_tile_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OfferDetailsScreen extends StatelessWidget {
-  final Offer offer;
+class DetailsScreen extends StatelessWidget {
+  final DetailsData data;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const OfferDetailsScreen({super.key, required this.offer,required this.scaffoldKey});
+  const DetailsScreen({super.key, required this.data,required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class OfferDetailsScreen extends StatelessWidget {
                     BorderRadius.all(Radius.circular(ScreenUtil().setWidth(7))),
                 boxShadow: [AppStyle.softShowStyle],
                 image: DecorationImage(
-                  image: NetworkImage(offer.image),
+                  image: NetworkImage(data.image),
                   fit: BoxFit.cover,
                   colorFilter: ColorFilter.mode(
                     Color(0xFF252B37).withValues(alpha: 0.35),
@@ -52,7 +52,7 @@ class OfferDetailsScreen extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    offer.title,
+                    data.title,
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       color: Colors.white,
                       shadows: [AppStyle.softShowStyle],
@@ -69,7 +69,7 @@ class OfferDetailsScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        "\$${offer.price}",
+                        "\$${data.price}",
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall!
@@ -78,7 +78,7 @@ class OfferDetailsScreen extends StatelessWidget {
                                 color: Color(0xFF252B37)),
                       ),
                       SizedBox(width: ScreenUtil().setWidth(12)),
-                      Container(
+                      data.discountPercentage!= null ? Container(
                         padding: EdgeInsets.symmetric(
                           horizontal: ScreenUtil().setWidth(10),
                           vertical: ScreenUtil().setHeight(4),
@@ -88,32 +88,32 @@ class OfferDetailsScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          "${offer.discountPercentage} % OFF",
+                          "${data.discountPercentage} % OFF",
                           style: TextStyle(
                             color: Color(0xFFAB2929),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                      )
+                      ): Container()
                     ],
                   ),
                   SizedBox(height: ScreenUtil().setHeight(16)),
                   InfoTileWidget(
                     icon: Icons.category_outlined,
                     title: "Category",
-                    value: offer.category,
+                    value: data.category,
                   ),
                   InfoTileWidget(
                     icon: Icons.store_outlined,
                     title: "Store",
-                    value: offer.storeId,
+                    value: data.store.name,
                   ),
-                  InfoTileWidget(
+                  data.expireDate!= null ? InfoTileWidget(
                     icon: Icons.schedule_outlined,
                     title: "Valid Until",
                     value:
-                        "${offer.expireDate.day}/${offer.expireDate.month}/${offer.expireDate.year}",
-                  ),
+                        "${data.expireDate!.day}/${data.expireDate!.month}/${data.expireDate!.year}",
+                  ): Container(),
                   SizedBox(height: ScreenUtil().setHeight(20)),
                   Text(
                     "Description",
@@ -123,13 +123,13 @@ class OfferDetailsScreen extends StatelessWidget {
                   ),
                   SizedBox(height: ScreenUtil().setHeight(8)),
                   Text(
-                    offer.description,
+                    data.description,
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                   SizedBox(height: ScreenUtil().setHeight(30)),
                   PrimaryButtonWidget(
                       color: Color(0xFFAB2929),
-                      title: 'Order from this store',
+                      title: 'Add to cart',
                       isLoading: false,
                       function: () => {
                             // TODO: navigate to store

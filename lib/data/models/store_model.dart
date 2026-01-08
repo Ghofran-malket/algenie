@@ -5,8 +5,15 @@ class Store {
   String name;
   String title;
   Position? location;
+  String image;
+  String  address;
+  String number;
+  int  ratings;
+  String  openAt;
+  String closeAt;
 
-  Store({required this.id, required this.name, required this.title, required this.location,});
+  Store({required this.id, required this.name, required this.title,required this.location, required this.image,
+          required this.address, required this.number, required this.ratings, required this.openAt, required this.closeAt});
 
   factory Store.fromJson(Map<String, dynamic> json) {
     return Store(
@@ -24,7 +31,13 @@ class Store {
         headingAccuracy: 0.0,
         speed: 0.0,
         speedAccuracy: 0.0,
-      )
+      ),
+      image: json['image'],
+      address: json['address'],
+      number: json['number'],
+      ratings: json['ratings'],
+      openAt: json['openAt'],
+      closeAt: json['closeAt'],
     );
   }
 
@@ -34,7 +47,13 @@ class Store {
       'name': name,
       'title': title,
       'storeLocation.longitude': location?.longitude,
-      'storeLocation.latitude': location?.latitude
+      'storeLocation.latitude': location?.latitude,
+      'image': image,
+      'address': address,
+      'number': number,
+      'ratings': ratings,
+      'openAt': openAt,
+      'closeAt': closeAt,
     };
   }
 }

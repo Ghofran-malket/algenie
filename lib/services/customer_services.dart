@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:algenie/data/models/item_model.dart';
+import 'package:algenie/data/models/nearby_store_model.dart';
 import 'package:algenie/data/models/offer_model.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 class CustomerService {
@@ -39,6 +41,28 @@ class CustomerService {
       }
     }catch (e){
       print("Failed to getItemsList ${e.toString()}");
+      return [];
+    }
+  }
+
+  // get nearby stores list
+  Future<List<NearbyStore>> getNearbyStoresList(Position myLocation, int raduis) async {
+    try{
+      final response = await http.get(
+        Uri.parse('${baseUrl}stores/getNearbyStores/?latitude=${myLocation.latitude}&&longitude=${myLocation.longitude}&&radius=$raduis'),
+        headers: {'Content-Type': 'application/json'}
+      );
+
+      if(response.statusCode == 200){
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final List<dynamic> storesList = data['stores'];
+        final List<NearbyStore> stores = storesList.map((item) => NearbyStore.fromJson(item)).toList();
+        return stores;
+      }else {
+        throw Exception('Failed to getNearbyStoresList');
+      }
+    }catch (e){
+      print("Failed to getNearbyStoresList ${e.toString()}");
       return [];
     }
   }

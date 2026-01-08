@@ -1,5 +1,4 @@
 import 'package:algenie/core/styles/app_style.dart';
-import 'package:algenie/data/models/order_store_model.dart';
 import 'package:algenie/presentation/screens/customer_screens/details_screen.dart';
 import 'package:algenie/presentation/widgets/customer_home_bar_widget.dart';
 import 'package:algenie/presentation/widgets/store_card_widget.dart';
@@ -22,47 +21,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _current = 0;
-  List<OrderStore> nearbyStores = [
-    OrderStore(
-        id: '1',
-        title: 'Store1',
-        items: [],
-        location: Position(
-          latitude: 33.55,
-          longitude: 33.555,
-          accuracy: 0.0,
-          timestamp: DateTime.now(),
-          altitude: 0.0,
-          altitudeAccuracy: 0.0,
-          heading: 0.0,
-          headingAccuracy: 0.0,
-          speed: 0.0,
-          speedAccuracy: 0.0,
-        ),
-        name: 'Aushan',
-        storeStatus: 'sdsd'),
-    OrderStore(
-        id: '1',
-        title: 'Store1',
-        items: [],
-        location: Position(
-          latitude: 33.55,
-          longitude: 33.555,
-          accuracy: 0.0,
-          timestamp: DateTime.now(),
-          altitude: 0.0,
-          altitudeAccuracy: 0.0,
-          heading: 0.0,
-          headingAccuracy: 0.0,
-          speed: 0.0,
-          speedAccuracy: 0.0,
-        ),
-        name: 'Aushan',
-        storeStatus: 'sdsd')
-  ];
-
-  bool isLoading = false;
-  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +34,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
             padding:
                 EdgeInsets.symmetric(horizontal: ScreenUtil().setWidth(17)),
             child: ListView(
-              controller: scrollController,
               children: [
                 SizedBox(
                   height: ScreenUtil().setHeight(25),
@@ -261,28 +218,43 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                         color: Colors.black54)),
                 SizedBox(height: ScreenUtil().setHeight(15)),
 
-                nearbyStores.isEmpty
-                    ? Center(
-                        child: Text('No Data...'),
-                      )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: nearbyStores.length,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: ScreenUtil().setWidth(0)),
-                        itemBuilder: (context, index) {
-                          return StoreCardWidget(
-                              store: nearbyStores[index],
-                              initialPosition: nearbyStores[index].location!);
-                        },
-                      ),
-                isLoading
-                    ? SpinKitFadingCircle(
-                        color: Color(0xFFAB2929),
-                        size: 30,
-                      )
-                    : Container(),
+                FutureBuilder(
+                      future: CustomerService().getNearbyStoresList(Position(
+                        latitude: 41.11,
+                        longitude: 70.10,
+                        accuracy: 0.0,
+                        timestamp: DateTime.now(),
+                        altitude: 0.0,
+                        altitudeAccuracy: 0.0,
+                        heading: 0.0,
+                        headingAccuracy: 0.0,
+                        speed: 0.0,
+                        speedAccuracy: 0.0,
+                      ), 100),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData) {
+                          return SpinKitFadingCircle(
+                            color: Color(0xFFAB2929),
+                            size: 30,
+                          );
+                        }
+
+                        final nearbyStoresList = snapshot.data!;
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: nearbyStoresList.length,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: ScreenUtil().setWidth(0)),
+                            itemBuilder: (context, index) {
+                              return StoreCardWidget(
+                                  store: nearbyStoresList[index].store,
+                                  distance: nearbyStoresList[index].distance,
+                                  initialPosition: nearbyStoresList[index].store.location!);
+                            },
+                          );
+                      }
+                    ),
               ],
             )),
       ),

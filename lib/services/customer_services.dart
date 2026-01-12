@@ -67,4 +67,25 @@ class CustomerService {
     }
   }
 
+  // get items list by store id
+  Future<List<Item>> getItemsByStoreId(String storeId) async {
+    try{
+      final response = await http.get(
+        Uri.parse('${baseUrl}items/getItemsByStoreId/?storeId=$storeId'),
+        headers: {'Content-Type': 'application/json'}
+      );
+
+      if(response.statusCode == 200){
+        final List<dynamic> data = jsonDecode(response.body);
+        final List<Item> items = data.map((e) => Item.fromJson(e)).toList();
+        return items;
+      }else {
+        throw Exception('Failed to getItemsByStoreId');
+      }
+    }catch (e){
+      print("Failed to getItemsByStoreId ${e.toString()}");
+      return [];
+    }
+  }
+
 }

@@ -12,7 +12,9 @@ class NearbyStore {
   factory NearbyStore.fromJson(Map<String, dynamic> json) {
     return NearbyStore(
       store: Store.fromJson(json['store']),
-      distance: json['distance'].toStringAsFixed(3)
+      distance: double.parse(json['distance'].toStringAsFixed(3)) < 1 ? 
+        "${(double.parse(json['distance'].toStringAsFixed(3))*1000).toInt()} M"
+        : "${json["distance"].toStringAsFixed(3)} KM",
     );
   }
 }

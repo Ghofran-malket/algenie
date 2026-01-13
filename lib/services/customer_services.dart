@@ -7,6 +7,19 @@ import 'package:http/http.dart' as http;
 
 class CustomerService {
   final String baseUrl = "http://192.168.1.89:3000/api/";
+  final Position myLocation = Position(
+    latitude: 41.11,
+    longitude: 70.10,
+    accuracy: 0.0,
+    timestamp: DateTime.now(),
+    altitude: 0.0,
+    altitudeAccuracy: 0.0,
+    heading: 0.0,
+    headingAccuracy: 0.0,
+    speed: 0.0,
+    speedAccuracy: 0.0,
+  );
+  final double raduis = 1000;
 
   //get offers list
   Future getOffersList() async {
@@ -46,7 +59,7 @@ class CustomerService {
   }
 
   // get nearby stores list
-  Future<List<NearbyStore>> getNearbyStoresList(Position myLocation, int raduis) async {
+  Future<List<NearbyStore>> getNearbyStoresList() async { 
     try{
       final response = await http.get(
         Uri.parse('${baseUrl}stores/getNearbyStores/?latitude=${myLocation.latitude}&&longitude=${myLocation.longitude}&&radius=$raduis'),

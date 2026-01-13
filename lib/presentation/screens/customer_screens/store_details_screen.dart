@@ -89,7 +89,12 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                 child: FutureBuilder(
                   future: CustomerService().getItemsByStoreId(widget.store.id),
                   builder: (context, snapshot) {
-                    if(!snapshot.hasData) return SpinKitRotatingCircle();
+                    if(!snapshot.hasData) {
+                      return SpinKitFadingCircle(
+                        color: Color(0xFFAB2929),
+                        size: 30,
+                      );
+                    }
 
                     final items = snapshot.data!;
                     return Scrollbar(
@@ -103,7 +108,7 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                               crossAxisSpacing: 20,
                               childAspectRatio: 0.65,
                             ),
-                            itemCount: 25,
+                            itemCount: items.length,
                             physics: ScrollPhysics(),
                             itemBuilder: (context, index) {
                               return InkWell(

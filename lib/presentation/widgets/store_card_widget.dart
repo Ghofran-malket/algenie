@@ -16,11 +16,7 @@ class StoreCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      splashColor: Color(0xFF252B37).withValues(alpha: 0.1),
-      borderRadius: BorderRadius.all(Radius.circular(ScreenUtil().setWidth(8),)),
-      child: Padding(
+    return Padding(
         padding: EdgeInsets.all(ScreenUtil().setWidth(10)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,16 +38,19 @@ class StoreCardWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  store.name,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(color: Color(0xFF252B37)),
+                Expanded(
+                  child: Text(
+                    store.name,
+                    softWrap: true,
+                              maxLines: 2,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleSmall!
+                        .copyWith(color: Color(0xFF252B37)),
+                  ),
                 ),
                 Text(
-                  double.parse(distance) < 1 ? 
-                  '${(double.parse(distance)*1000).toInt()} M' : '$distance KM',
+                  distance,
                   style: Theme.of(context)
                       .textTheme
                       .titleSmall!
@@ -80,7 +79,6 @@ class StoreCardWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }

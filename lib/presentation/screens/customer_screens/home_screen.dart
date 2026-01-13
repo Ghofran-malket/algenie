@@ -35,7 +35,6 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final storeProvider = Provider.of<StoreProvider>(context);
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) async {
@@ -265,7 +264,7 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: ScreenUtil().setWidth(0)),
                             itemBuilder: (context, index) {
-                              final store = storeProvider.nearbyStores[index];
+                              final store = provider.nearbyStores[index];
                               return InkWell(
                                 onTap: () {
                                   Navigator.push(

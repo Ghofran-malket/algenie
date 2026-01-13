@@ -2,6 +2,7 @@ import 'package:algenie/data/models/order_model.dart';
 import 'package:algenie/presentation/screens/genie_screens/order_notification_screen.dart';
 import 'package:algenie/presentation/screens/splash_screen.dart';
 import 'package:algenie/providers/auth_provider.dart';
+import 'package:algenie/providers/store_provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,15 @@ void main() async {
   await authProvider.loadUserFromStorage();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => authProvider,
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => StoreProvider()),
+        ChangeNotifierProvider(
+          create: (_) => authProvider,
+        ),
+      ],
       child: MyApp(),
-    ),
+    )
   );
 }
 

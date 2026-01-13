@@ -4,6 +4,7 @@ import 'package:algenie/presentation/screens/customer_screens/store_details_scre
 import 'package:algenie/presentation/widgets/customer_home_bar_widget.dart';
 import 'package:algenie/presentation/widgets/store_card_widget.dart';
 import 'package:algenie/providers/store_provider.dart';
+import 'package:algenie/providers/sub_items_provider.dart';
 import 'package:algenie/services/customer_services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -270,9 +271,12 @@ class _CustomerHomeScreenState extends State<CustomerHomeScreen> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => StoreDetailsScreen(
-                                        store: store.store,
-                                        distance: store.distance,
+                                      builder: (context) => ChangeNotifierProvider(
+                                        create: (_) => ItemsSubProvider(storeId: store.store.id),
+                                        child: StoreDetailsScreen(
+                                          store: store.store,
+                                          distance: store.distance,
+                                        ),
                                       ),
                                     ),
                                   );

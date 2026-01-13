@@ -1,11 +1,12 @@
 import 'package:algenie/core/styles/app_style.dart';
 import 'package:algenie/data/models/store_model.dart';
 import 'package:algenie/presentation/widgets/item_card_widget.dart';
-import 'package:algenie/services/customer_services.dart';
+import 'package:algenie/providers/sub_items_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class StoreDetailsScreen extends StatefulWidget {
   final Store store;
@@ -18,6 +19,15 @@ class StoreDetailsScreen extends StatefulWidget {
 }
 
 class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
+
+  @override
+  void initState() {
+   final itemsSubProvider = Provider.of<ItemsSubProvider>(context, listen: false);
+    Future.microtask(() {
+      itemsSubProvider.fetchItems();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,17 +96,14 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                 ),
               ),
               Expanded(
-                child: FutureBuilder(
-                  future: CustomerService().getItemsByStoreId(widget.store.id),
-                  builder: (context, snapshot) {
-                    if(!snapshot.hasData) {
+                child: Consumer<ItemsSubProvider>(
+                  builder: (context, provider, _) {
+                    if(provider.isLoading){
                       return SpinKitFadingCircle(
-                        color: Color(0xFFAB2929),
-                        size: 30,
-                      );
+                          color: Color(0xFFAB2929),
+                          size: 30,
+                        ); 
                     }
-
-                    final items = snapshot.data!;
                     return Scrollbar(
                         thumbVisibility: true,
                         child: GridView.builder(
@@ -108,9 +115,10 @@ class _StoreDetailsScreenState extends State<StoreDetailsScreen> {
                               crossAxisSpacing: 20,
                               childAspectRatio: 0.65,
                             ),
-                            itemCount: items.length,
+                            itemCount: provider.items.length,
                             physics: ScrollPhysics(),
                             itemBuilder: (context, index) {
+                              final items = provider.items;
                               return InkWell(
                                   onTap: () {},
                                   splashColor:

@@ -36,6 +36,7 @@ class UserDataWidget extends StatelessWidget {
             height: ScreenUtil().setHeight(100),
             width: ScreenUtil().setHeight(100),
             decoration: BoxDecoration(
+                color: Color(0xFF252B37).withValues(alpha: 0.3),
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     fit: BoxFit.fill, image: user.image!.startsWith("http") ? NetworkImage(user.image!) : FileImage(File(user.image!))))),

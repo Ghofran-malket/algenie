@@ -1,4 +1,5 @@
 import 'package:algenie/data/models/user_model.dart';
+import 'package:algenie/presentation/screens/customer_screens/track_order_screen.dart';
 import 'package:algenie/presentation/widgets/icon_title_widget.dart';
 import 'package:algenie/presentation/widgets/user_data_widget.dart';
 import 'package:algenie/utils/auth_storage.dart';
@@ -14,7 +15,6 @@ class OrderStatusScreen extends StatefulWidget {
 }
 
 class OrderStatusScreenState extends State<OrderStatusScreen> {
-  int index = 1;
   late User user;
 
   getUserData() async {
@@ -35,11 +35,10 @@ class OrderStatusScreenState extends State<OrderStatusScreen> {
       },
       child: Scaffold(
         body: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: ScreenUtil().setWidth(17),
-              vertical: ScreenUtil().setHeight(30)),
-          child: Column(
-            children: [
+            padding: EdgeInsets.symmetric(
+                horizontal: ScreenUtil().setWidth(17),
+                vertical: ScreenUtil().setHeight(30)),
+            child: Column(children: [
               UserDataWidget(user: user, title: 'Title'),
               Padding(
                 padding:
@@ -65,7 +64,14 @@ class OrderStatusScreenState extends State<OrderStatusScreen> {
                     IconTitleWidget(
                       title: 'Tracking',
                       icon: Icons.track_changes,
-                      onAction: () {},
+                      onAction: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => TrackOrderScreen(),
+                          ),
+                        );
+                      },
                     ),
                     IconTitleWidget(
                       title: 'Info',
@@ -81,9 +87,7 @@ class OrderStatusScreenState extends State<OrderStatusScreen> {
                 ),
               ),
               Spacer()
-            ],
-          ),
-        ),
+            ])),
       ),
     );
   }

@@ -5,13 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class IconTitleWidget extends StatelessWidget {
   final String title;
   final IconData? icon;
-  final Function onAction;
+  final GestureTapCallback onAction;
   const IconTitleWidget({super.key, required this.title, required this.icon, required this.onAction});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: ()=> onAction,
+      onTap: onAction,
       child: Container(
           decoration: BoxDecoration(
             color: Colors.white,

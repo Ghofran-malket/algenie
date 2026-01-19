@@ -1,9 +1,12 @@
+import 'package:algenie/presentation/screens/customer_screens/home_screen.dart';
 import 'package:algenie/presentation/screens/genie_screens/home_screen.dart';
 import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
+import 'package:algenie/providers/auth_provider.dart';
 import 'package:algenie/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 
 class InviteFriendsScreen extends StatefulWidget {
@@ -145,24 +148,39 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
                 )
               ),
 
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (context) => const GenieHome(),
-                      ),
-                    );
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 17),
-                    child: Center(
-                      child: Text(
-                        "Skip",
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xFFAB2929), fontWeight: FontWeight.bold)
-                      ),
-                    ),
-                  )),
+              Consumer<AuthProvider>(
+                  builder: (context, provider, _) {
+                  return InkWell(
+                      onTap: () {
+                        //if role is genie then go to genie home
+                          if(provider.user?.role == 'genie') {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) => const GenieHome(),
+                            ),
+                          );
+                        }else{
+                          //if role is customer then go to customer home (assuming that customer has no order for this moment)
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (context) => const CustomerHomeScreen(),
+                            ),
+                          );
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 17),
+                        child: Center(
+                          child: Text(
+                            "Skip",
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Color(0xFFAB2929), fontWeight: FontWeight.bold)
+                          ),
+                        ),
+                      ));
+                }
+              ),
                 SizedBox(height: ScreenUtil().setHeight(15),)
             ],
           ),

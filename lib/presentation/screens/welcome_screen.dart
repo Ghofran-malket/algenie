@@ -1,5 +1,4 @@
 import 'package:algenie/presentation/screens/auth/login_screen.dart';
-import 'package:algenie/presentation/screens/customer_screens/home_screen.dart';
 import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(
-                      builder: (context) => const CustomerHomeScreen(),
+                      builder: (context) => const LoginScreen(),
                     ),
                   );
                 },

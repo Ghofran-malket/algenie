@@ -9,15 +9,12 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //if Authenticated then
-    //  if genie then go to genie home
-    // if genie is busy with order go to order details page
-    //  if customer then go to customer home
-    //if not authenticated go to first route
 
     return Scaffold(body: Consumer<AuthProvider>(builder: (context, auth, _) {
+      //if authenticated go to start up screen
       return auth.isLoggedIn
           ? StartupWidget()
+          //else go to welcome screen
           : Center(
               child: InkWell(
                 onTap: () => {

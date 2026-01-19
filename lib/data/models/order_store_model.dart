@@ -32,7 +32,7 @@ class OrderStore {
         speed: 0.0,
         speedAccuracy: 0.0,
       ),
-      storeStatus: json['storeStatus']
+      storeStatus: json['storeOrderStatus']
     );
   }
 

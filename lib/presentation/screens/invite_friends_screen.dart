@@ -1,4 +1,4 @@
-import 'package:algenie/presentation/screens/customer_screens/home_screen.dart';
+import 'package:algenie/presentation/screens/customer_screens/customer_flow_widget.dart';
 import 'package:algenie/presentation/screens/genie_screens/home_screen.dart';
 import 'package:algenie/presentation/widgets/container_background_image_widget.dart';
 import 'package:algenie/presentation/widgets/primary_button_widget.dart';
@@ -161,11 +161,11 @@ class _InviteFriendsScreenState extends State<InviteFriendsScreen> {
                             ),
                           );
                         }else{
-                          //if role is customer then go to customer home (assuming that customer has no order for this moment)
+                          //if role is customer then go to customer flow widget
                           Navigator.push(
                             context,
                             MaterialPageRoute<void>(
-                              builder: (context) => const CustomerHomeScreen(),
+                              builder: (context) => CustomerFlowWidget(),
                             ),
                           );
                         }

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:algenie/data/models/item_model.dart';
 import 'package:algenie/data/models/nearby_store_model.dart';
 import 'package:algenie/data/models/offer_model.dart';
+import 'package:algenie/data/models/order_model.dart';
+import 'package:algenie/utils/auth_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,6 +22,7 @@ class CustomerService {
     speedAccuracy: 0.0,
   );
   final double raduis = 1000;
+  final AuthStorage storage = AuthStorage();
 
   //get offers list
   Future getOffersList() async {
@@ -101,4 +104,23 @@ class CustomerService {
     }
   }
 
+  //get the customer's order
+  Future<Order?> getCustomerOrder() async{
+    try{
+      final customerId = await storage.getUserId();
+      final response = await http.get(
+        Uri.parse('${baseUrl}orders/getCustomerOrder/?customerId=$customerId'),
+        headers: {'Content-Type': 'application/json'}
+      );
+
+      if(response.statusCode == 200){
+        return Order.fromJson(jsonDecode(response.body));
+      }else {
+        throw Exception('Failed to getCustomerOrder');
+      }
+    }catch(e){
+      print("Failed to getCustomerOrder ${e.toString()}");
+      return null;
+    }
+  }
 }
